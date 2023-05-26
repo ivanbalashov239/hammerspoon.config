@@ -1,0 +1,14 @@
+tell application "System Events" to tell application process "BetterDisplay"
+    tell menu bar item 1 of menu bar 1
+        click
+        tell menu item "Manage Dummies" of menu 1
+			click
+			if menu item "Connect All Dummies" of menu 1 exists then
+				click menu item "Connect All Dummies" of menu 1
+			end if
+			if menu item "Disconnect All Dummies" of menu 1 exists then
+				click menu item "Disconnect All Dummies" of menu 1
+			end if
+		end tell
+    end tell
+end tell

@@ -1,0 +1,649 @@
+<1>{
+  AXChildren = { <2>{
+      AXChildren = { <3>{
+          AXChildren = { {
+              AXEnabled = true,
+              AXFrame = {
+                h = 294.0,
+                w = 471.0,
+                x = -527.0,
+                y = 542.0
+              },
+              AXParent = <table 3>,
+              AXPosition = {
+                x = -527.0,
+                y = 542.0
+              },
+              AXRole = "AXButton",
+              AXRoleDescription = "button",
+              AXSize = {
+                h = 294.0,
+                w = 471.0
+              },
+              AXTitle = "Hammerspoon docs: hs.spaces",
+              AXTopLevelUIElement = <table 3>,
+              _actions = { "AXPress" },
+              _attributes = { "AXRole", "AXRoleDescription", "AXTitle", "AXEnabled", "AXParent", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame" },
+              _element = <userdata 1> -- hs.axuielement: AXButton (0x600003771778),
+              _parameterizedAttributes = {}
+            },
+            {
+              AXEnabled = true,
+              AXFrame = {
+                h = 43.0,
+                w = 103.0,
+                x = -125.0,
+                y = 853.0
+              },
+              AXParent = <table 3>,
+              AXPosition = {
+                x = -125.0,
+                y = 853.0
+              },
+              AXRole = "AXButton",
+              AXRoleDescription = "button",
+              AXSize = {
+                h = 43.0,
+                w = 103.0
+              },
+              AXTitle = "Simulant.2023.1080p.WEBRip.x265-LAMA.mp4",
+              AXTopLevelUIElement = <table 3>,
+              _actions = { "AXPress" },
+              _attributes = { "AXRole", "AXRoleDescription", "AXTitle", "AXEnabled", "AXParent", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame" },
+              _element = <userdata 2> -- hs.axuielement: AXButton (0x600003773038),
+              _parameterizedAttributes = {}
+            }, {
+              AXEnabled = true,
+              AXFrame = {
+                h = 294.0,
+                w = 471.0,
+                x = -494.0,
+                y = 232.0
+              },
+              AXParent = <table 3>,
+              AXPosition = {
+                x = -494.0,
+                y = 232.0
+              },
+              AXRole = "AXButton",
+              AXRoleDescription = "button",
+              AXSize = {
+                h = 294.0,
+                w = 471.0
+              },
+              AXTitle = "Telegram",
+              AXTopLevelUIElement = <table 3>,
+              _actions = { "AXPress" },
+              _attributes = { "AXRole", "AXRoleDescription", "AXTitle", "AXEnabled", "AXParent", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame" },
+              _element = <userdata 3> -- hs.axuielement: AXButton (0x6000037732b8),
+              _parameterizedAttributes = {}
+            }, {
+              AXEnabled = true,
+              AXFrame = {
+                h = 294.0,
+                w = 471.0,
+                x = -1013.0,
+                y = 603.0
+              },
+              AXParent = <table 3>,
+              AXPosition = {
+                x = -1013.0,
+                y = 603.0
+              },
+              AXRole = "AXButton",
+              AXRoleDescription = "button",
+              AXSize = {
+                h = 294.0,
+                w = 471.0
+              },
+              AXTitle = "Spotify Free",
+              AXTopLevelUIElement = <table 3>,
+              _actions = { "AXPress" },
+              _attributes = { "AXRole", "AXRoleDescription", "AXTitle", "AXEnabled", "AXParent", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame" },
+              _element = <userdata 4> -- hs.axuielement: AXButton (0x600003772ab8),
+              _parameterizedAttributes = {}
+            }, {
+              AXEnabled = true,
+              AXFrame = {
+                h = 294.0,
+                w = 471.0,
+                x = -993.0,
+                y = 115.0
+              },
+              AXParent = <table 3>,
+              AXPosition = {
+                x = -993.0,
+                y = 115.0
+              },
+              AXRole = "AXButton",
+              AXRoleDescription = "button",
+              AXSize = {
+                h = 294.0,
+                w = 471.0
+              },
+              AXTitle = "WhatsApp",
+              AXTopLevelUIElement = <table 3>,
+              _actions = { "AXPress" },
+              _attributes = { "AXRole", "AXRoleDescription", "AXTitle", "AXEnabled", "AXParent", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame" },
+              _element = <userdata 5> -- hs.axuielement: AXButton (0x6000037706b8),
+              _parameterizedAttributes = {}
+            }, {
+              AXEnabled = true,
+              AXFrame = {
+                h = 294.0,
+                w = 471.0,
+                x = -1496.0,
+                y = 419.0
+              },
+              AXParent = <table 3>,
+              AXPosition = {
+                x = -1496.0,
+                y = 419.0
+              },
+              AXRole = "AXButton",
+              AXRoleDescription = "button",
+              AXSize = {
+                h = 294.0,
+                w = 471.0
+              },
+              AXTitle = "Passwords.kdbx [Locked] - KeePassXC",
+              AXTopLevelUIElement = <table 3>,
+              _actions = { "AXPress" },
+              _attributes = { "AXRole", "AXRoleDescription", "AXTitle", "AXEnabled", "AXParent", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame" },
+              _element = <userdata 6> -- hs.axuielement: AXButton (0x600003770e38),
+              _parameterizedAttributes = {}
+            }, {
+              AXEnabled = true,
+              AXFrame = {
+                h = 294.0,
+                w = 471.0,
+                x = -1487.0,
+                y = 111.0
+              },
+              AXParent = <table 3>,
+              AXPosition = {
+                x = -1487.0,
+                y = 111.0
+              },
+              AXRole = "AXButton",
+              AXRoleDescription = "button",
+              AXSize = {
+                h = 294.0,
+                w = 471.0
+              },
+              AXTitle = "Karabiner-Elements complex_modifications rules",
+              AXTopLevelUIElement = <table 3>,
+              _actions = { "AXPress" },
+              _attributes = { "AXRole", "AXRoleDescription", "AXTitle", "AXEnabled", "AXParent", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame" },
+              _element = <userdata 7> -- hs.axuielement: AXButton (0x600003773a38),
+              _parameterizedAttributes = {}
+            } },
+          AXFocused = false,
+          AXFrame = {
+            h = 784.0,
+            w = 1472.0,
+            x = 20.0,
+            y = 112.0
+          },
+          AXIdentifier = "mc.windows",
+          AXParent = <table 2>,
+          AXPosition = {
+            x = 20.0,
+            y = 112.0
+          },
+          AXRole = "AXGroup",
+          AXRoleDescription = "exposéd windows",
+          AXSelectedChildren = {},
+          AXSize = {
+            h = 784.0,
+            w = 1472.0
+          },
+          AXTopLevelUIElement = <table 2>,
+          _attributes = { "AXRole", "AXRoleDescription", "AXFocused", "AXParent", "AXChildren", "AXTopLevelUIElement", "AXSelectedChildren", "AXPosition", "AXSize", "AXFrame", "AXIdentifier" },
+          _element = <userdata 8> -- hs.axuielement: AXGroup (0x60000376d578),
+          _parameterizedAttributes = {}
+        }, <4>{
+          AXChildren = { <5>{
+              AXChildren = { <6>{
+                  AXDescription = "select Desktop 1",
+                  AXEnabled = true,
+                  AXFrame = {
+                    h = 24.0,
+                    w = 65.0,
+                    x = 474.0,
+                    y = -32.0
+                  },
+                  AXParent = <table 5>,
+                  AXPosition = {
+                    x = 474.0,
+                    y = -32.0
+                  },
+                  AXRole = "AXButton",
+                  AXRoleDescription = "button",
+                  AXSize = {
+                    h = 24.0,
+                    w = 65.0
+                  },
+                  AXTopLevelUIElement = <table 1>,
+                  _actions = { "AXPress" },
+                  _attributes = { "AXRole", "AXRoleDescription", "AXEnabled", "AXParent", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame", "AXDescription" },
+                  _element = <userdata 9> -- hs.axuielement: AXButton (0x6000037994b8),
+                  _parameterizedAttributes = {}
+                }, {
+                  AXDescription = "select Desktop 2",
+                  AXEnabled = true,
+                  AXFrame = {
+                    h = 24.0,
+                    w = 67.0,
+                    x = 571.0,
+                    y = -32.0
+                  },
+                  AXParent = <table 5>,
+                  AXPosition = {
+                    x = 571.0,
+                    y = -32.0
+                  },
+                  AXRole = "AXButton",
+                  AXRoleDescription = "button",
+                  AXSize = {
+                    h = 24.0,
+                    w = 67.0
+                  },
+                  AXTopLevelUIElement = <table 1>,
+                  _actions = { "AXPress" },
+                  _attributes = { "AXRole", "AXRoleDescription", "AXEnabled", "AXParent", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame", "AXDescription" },
+                  _element = <userdata 10> -- hs.axuielement: AXButton (0x6000037992b8),
+                  _parameterizedAttributes = {}
+                }, {
+                  AXDescription = "select Desktop 3",
+                  AXEnabled = true,
+                  AXFrame = {
+                    h = 24.0,
+                    w = 68.0,
+                    x = 670.0,
+                    y = -32.0
+                  },
+                  AXParent = <table 5>,
+                  AXPosition = {
+                    x = 670.0,
+                    y = -32.0
+                  },
+                  AXRole = "AXButton",
+                  AXRoleDescription = "button",
+                  AXSize = {
+                    h = 24.0,
+                    w = 68.0
+                  },
+                  AXTopLevelUIElement = <table 1>,
+                  _actions = { "AXPress" },
+                  _attributes = { "AXRole", "AXRoleDescription", "AXEnabled", "AXParent", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame", "AXDescription" },
+                  _element = <userdata 11> -- hs.axuielement: AXButton (0x600003799078),
+                  _parameterizedAttributes = {}
+                }, {
+                  AXDescription = "select Desktop 4",
+                  AXEnabled = true,
+                  AXFrame = {
+                    h = 24.0,
+                    w = 68.0,
+                    x = 770.0,
+                    y = -32.0
+                  },
+                  AXParent = <table 5>,
+                  AXPosition = {
+                    x = 770.0,
+                    y = -32.0
+                  },
+                  AXRole = "AXButton",
+                  AXRoleDescription = "button",
+                  AXSize = {
+                    h = 24.0,
+                    w = 68.0
+                  },
+                  AXTopLevelUIElement = <table 1>,
+                  _actions = { "AXPress" },
+                  _attributes = { "AXRole", "AXRoleDescription", "AXEnabled", "AXParent", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame", "AXDescription" },
+                  _element = <userdata 12> -- hs.axuielement: AXButton (0x600003799238),
+                  _parameterizedAttributes = {}
+                }, {
+                  AXDescription = "select Desktop 5",
+                  AXEnabled = true,
+                  AXFrame = {
+                    h = 24.0,
+                    w = 68.0,
+                    x = 870.0,
+                    y = -32.0
+                  },
+                  AXParent = <table 5>,
+                  AXPosition = {
+                    x = 870.0,
+                    y = -32.0
+                  },
+                  AXRole = "AXButton",
+                  AXRoleDescription = "button",
+                  AXSize = {
+                    h = 24.0,
+                    w = 68.0
+                  },
+                  AXTopLevelUIElement = <table 1>,
+                  _actions = { "AXPress" },
+                  _attributes = { "AXRole", "AXRoleDescription", "AXEnabled", "AXParent", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame", "AXDescription" },
+                  _element = <userdata 13> -- hs.axuielement: AXButton (0x6000037994f8),
+                  _parameterizedAttributes = {}
+                }, {
+                  AXDescription = "select Desktop 6",
+                  AXEnabled = true,
+                  AXFrame = {
+                    h = 24.0,
+                    w = 68.0,
+                    x = 970.0,
+                    y = -32.0
+                  },
+                  AXParent = <table 5>,
+                  AXPosition = {
+                    x = 970.0,
+                    y = -32.0
+                  },
+                  AXRole = "AXButton",
+                  AXRoleDescription = "button",
+                  AXSize = {
+                    h = 24.0,
+                    w = 68.0
+                  },
+                  AXTopLevelUIElement = <table 1>,
+                  _actions = { "AXPress" },
+                  _attributes = { "AXRole", "AXRoleDescription", "AXEnabled", "AXParent", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame", "AXDescription" },
+                  _element = <userdata 14> -- hs.axuielement: AXButton (0x600003799378),
+                  _parameterizedAttributes = {}
+                } },
+              AXEnabled = true,
+              AXFrame = {
+                h = 72.0,
+                w = 1512.0,
+                x = 0.0,
+                y = 0.0
+              },
+              AXIdentifier = "mc.spaces.list",
+              AXParent = <table 4>,
+              AXPosition = {
+                x = 0.0,
+                y = 0.0
+              },
+              AXRole = "AXList",
+              AXRoleDescription = "list",
+              AXSelectedChildren = { <table 6> },
+              AXSize = {
+                h = 72.0,
+                w = 1512.0
+              },
+              AXTopLevelUIElement = <table 1>,
+              _attributes = { "AXRole", "AXRoleDescription", "AXEnabled", "AXParent", "AXChildren", "AXSelectedChildren", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame", "AXIdentifier" },
+              _element = <userdata 15> -- hs.axuielement: AXList (0x600003775338),
+              _parameterizedAttributes = {}
+            }, {
+              AXChildren = {},
+              AXDescription = "add desktop",
+              AXFocused = false,
+              AXFrame = {
+                h = 171.0,
+                w = 171.0,
+                x = 1440.0,
+                y = -99.0
+              },
+              AXIdentifier = "mc.spaces.add",
+              AXParent = <table 4>,
+              AXPosition = {
+                x = 1440.0,
+                y = -99.0
+              },
+              AXRole = "AXButton",
+              AXRoleDescription = "button",
+              AXSize = {
+                h = 171.0,
+                w = 171.0
+              },
+              AXTopLevelUIElement = <table 1>,
+              _actions = { "AXPress" },
+              _attributes = { "AXRole", "AXRoleDescription", "AXFocused", "AXParent", "AXChildren", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame", "AXDescription", "AXIdentifier" },
+              _element = <userdata 16> -- hs.axuielement: AXButton (0x6000037752b8),
+              _parameterizedAttributes = {}
+            } },
+          AXFocused = false,
+          AXFrame = {
+            h = 72.0,
+            w = 1512.0,
+            x = 0.0,
+            y = 0.0
+          },
+          AXIdentifier = "mc.spaces",
+          AXParent = <table 2>,
+          AXPosition = {
+            x = 0.0,
+            y = 0.0
+          },
+          AXRole = "AXGroup",
+          AXRoleDescription = "group",
+          AXSize = {
+            h = 72.0,
+            w = 1512.0
+          },
+          AXTopLevelUIElement = <table 2>,
+          AXWindow = {
+            _code = -25212,
+            error = "Requested value does not exist"
+          },
+          _attributes = { "AXRole", "AXRoleDescription", "AXFocused", "AXParent", "AXChildren", "AXTopLevelUIElement", "AXWindow", "AXPosition", "AXSize", "AXFrame", "AXIdentifier" },
+          _element = <userdata 17> -- hs.axuielement: AXGroup (0x60000376d0b8),
+          _parameterizedAttributes = {}
+        } },
+      AXDisplayID = 1,
+      AXFocused = false,
+      AXFrame = {
+        h = 982.0,
+        w = 1512.0,
+        x = 0.0,
+        y = 0.0
+      },
+      AXIdentifier = "mc.display",
+      AXParent = <table 1>,
+      AXPosition = {
+        x = 0.0,
+        y = 0.0
+      },
+      AXRole = "AXGroup",
+      AXRoleDescription = "group",
+      AXSize = {
+        h = 982.0,
+        w = 1512.0
+      },
+      AXTopLevelUIElement = <table 1>,
+      _attributes = { "AXRole", "AXRoleDescription", "AXFocused", "AXParent", "AXChildren", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame", "AXIdentifier", "AXDisplayID" },
+      _element = <userdata 18> -- hs.axuielement: AXGroup (0x60000375db78),
+      _parameterizedAttributes = {}
+    }, <7>{
+      AXChildren = { {
+          AXChildren = {},
+          AXFocused = false,
+          AXFrame = {
+            h = 620.0,
+            w = 1240.0,
+            x = -1260.0,
+            y = 1062.0
+          },
+          AXIdentifier = "mc.windows",
+          AXParent = <table 7>,
+          AXPosition = {
+            x = -1260.0,
+            y = 1062.0
+          },
+          AXRole = "AXGroup",
+          AXRoleDescription = "exposéd windows",
+          AXSelectedChildren = {},
+          AXSize = {
+            h = 620.0,
+            w = 1240.0
+          },
+          AXTopLevelUIElement = <table 7>,
+          _attributes = { "AXRole", "AXRoleDescription", "AXFocused", "AXParent", "AXChildren", "AXTopLevelUIElement", "AXSelectedChildren", "AXPosition", "AXSize", "AXFrame", "AXIdentifier" },
+          _element = <userdata 19> -- hs.axuielement: AXGroup (0x6000037660b8),
+          _parameterizedAttributes = {}
+        }, <8>{
+          AXChildren = { <9>{
+              AXChildren = { <10>{
+                  AXDescription = "select Desktop 7",
+                  AXEnabled = true,
+                  AXFrame = {
+                    h = 24.0,
+                    w = 67.0,
+                    x = -673.5,
+                    y = 950.0
+                  },
+                  AXParent = <table 9>,
+                  AXPosition = {
+                    x = -673.5,
+                    y = 950.0
+                  },
+                  AXRole = "AXButton",
+                  AXRoleDescription = "button",
+                  AXSize = {
+                    h = 24.0,
+                    w = 67.0
+                  },
+                  AXTopLevelUIElement = <table 1>,
+                  _actions = { "AXPress" },
+                  _attributes = { "AXRole", "AXRoleDescription", "AXEnabled", "AXParent", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame", "AXDescription" },
+                  _element = <userdata 20> -- hs.axuielement: AXButton (0x60000379eaf8),
+                  _parameterizedAttributes = {}
+                } },
+              AXEnabled = true,
+              AXFrame = {
+                h = 40.0,
+                w = 1280.0,
+                x = -1280.0,
+                y = 982.0
+              },
+              AXIdentifier = "mc.spaces.list",
+              AXParent = <table 8>,
+              AXPosition = {
+                x = -1280.0,
+                y = 982.0
+              },
+              AXRole = "AXList",
+              AXRoleDescription = "list",
+              AXSelectedChildren = { <table 10> },
+              AXSize = {
+                h = 40.0,
+                w = 1280.0
+              },
+              AXTopLevelUIElement = <table 1>,
+              _attributes = { "AXRole", "AXRoleDescription", "AXEnabled", "AXParent", "AXChildren", "AXSelectedChildren", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame", "AXIdentifier" },
+              _element = <userdata 21> -- hs.axuielement: AXList (0x600003788b78),
+              _parameterizedAttributes = {}
+            }, {
+              AXChildren = {},
+              AXDescription = "add desktop",
+              AXFocused = false,
+              AXFrame = {
+                h = 192.0,
+                w = 192.0,
+                x = -72.0,
+                y = 830.0
+              },
+              AXIdentifier = "mc.spaces.add",
+              AXParent = <table 8>,
+              AXPosition = {
+                x = -72.0,
+                y = 830.0
+              },
+              AXRole = "AXButton",
+              AXRoleDescription = "button",
+              AXSize = {
+                h = 192.0,
+                w = 192.0
+              },
+              AXTopLevelUIElement = <table 1>,
+              _actions = { "AXPress" },
+              _attributes = { "AXRole", "AXRoleDescription", "AXFocused", "AXParent", "AXChildren", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame", "AXDescription", "AXIdentifier" },
+              _element = <userdata 22> -- hs.axuielement: AXButton (0x6000037897f8),
+              _parameterizedAttributes = {}
+            } },
+          AXFocused = false,
+          AXFrame = {
+            h = 40.0,
+            w = 1280.0,
+            x = -1280.0,
+            y = 982.0
+          },
+          AXIdentifier = "mc.spaces",
+          AXParent = <table 7>,
+          AXPosition = {
+            x = -1280.0,
+            y = 982.0
+          },
+          AXRole = "AXGroup",
+          AXRoleDescription = "group",
+          AXSize = {
+            h = 40.0,
+            w = 1280.0
+          },
+          AXTopLevelUIElement = <table 7>,
+          AXWindow = {
+            _code = -25212,
+            error = "Requested value does not exist"
+          },
+          _attributes = { "AXRole", "AXRoleDescription", "AXFocused", "AXParent", "AXChildren", "AXTopLevelUIElement", "AXWindow", "AXPosition", "AXSize", "AXFrame", "AXIdentifier" },
+          _element = <userdata 23> -- hs.axuielement: AXGroup (0x6000037657f8),
+          _parameterizedAttributes = {}
+        } },
+      AXDisplayID = 12,
+      AXFocused = false,
+      AXFrame = {
+        h = 720.0,
+        w = 1280.0,
+        x = -1280.0,
+        y = 982.0
+      },
+      AXIdentifier = "mc.display",
+      AXParent = <table 1>,
+      AXPosition = {
+        x = -1280.0,
+        y = 982.0
+      },
+      AXRole = "AXGroup",
+      AXRoleDescription = "group",
+      AXSize = {
+        h = 720.0,
+        w = 1280.0
+      },
+      AXTopLevelUIElement = <table 1>,
+      _attributes = { "AXRole", "AXRoleDescription", "AXFocused", "AXParent", "AXChildren", "AXTopLevelUIElement", "AXPosition", "AXSize", "AXFrame", "AXIdentifier", "AXDisplayID" },
+      _element = <userdata 24> -- hs.axuielement: AXGroup (0x60000375d4b8),
+      _parameterizedAttributes = {}
+    } },
+  AXFocused = true,
+  AXFrame = {
+    h = 1702.0,
+    w = 2792.0,
+    x = -1280.0,
+    y = 0.0
+  },
+  AXIdentifier = "mc",
+  AXParent = <userdata 25> -- hs.axuielement: AXApplication (0x60000375cab8),
+  AXPosition = {
+    x = -1280.0,
+    y = 0.0
+  },
+  AXRole = "AXGroup",
+  AXRoleDescription = "group",
+  AXSize = {
+    h = 1702.0,
+    w = 2792.0
+  },
+  AXTopLevelUIElement = <userdata 26> -- hs.axuielement: AXApplication (0x60000375dd78),
+  AXWindow = {
+    _code = -25212,
+    error = "Requested value does not exist"
+  },
+  _attributes = { "AXRole", "AXRoleDescription", "AXFocused", "AXParent", "AXChildren", "AXTopLevelUIElement", "AXWindow", "AXPosition", "AXSize", "AXFrame", "AXIdentifier" },
+  _element = <userdata 27> -- hs.axuielement: AXGroup (0x6000037dddb8),
+  _parameterizedAttributes = {}
+}

@@ -1,0 +1,6 @@
+[submodule "PorcoSpoon"]
+	path = PorcoSpoon
+	url = https://github.com/Porco-Rosso/PorcoSpoon.git
+[submodule "Spoons-upstream"]
+	path = Spoons-upstream
+	url = https://github.com/Hammerspoon/Spoons
