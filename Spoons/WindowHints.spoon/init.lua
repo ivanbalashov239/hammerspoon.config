@@ -72,22 +72,29 @@ function obj:get_char(strings)
     end
 end
 
+local normalfilter = hs.window.filter.new(hs.window.filter.default)
 function obj:callback_window_created(w, appName, event)
     if w and appName and appName ~= "Hammerspoon" then
         -- logger.d(tostring(w:id()).." "..appName.." "..tostring(self:get_hint(w)))
-        local hint = self:get_char({ appName, w:title() })
-        if hint then
-            hints[hint] = w
-            windows[w:id()] = hint
-            -- hs.alert.show(appName.." "..hint)
-            -- logger.d("added"..tostring(w:id()).." "..appName.." "..tostring(self:get_hint(w)))
+        if windows[w:id()] then
+            return
+        end
+        local normalwindows = normalfilter:getWindows()
+        if hs.fnutils.contains(normalwindows, w) then
+            local hint = self:get_char({ appName, w:title() })
+            if hint then
+                hints[hint] = w
+                windows[w:id()] = hint
+                -- hs.alert.show(appName.." "..hint)
+                -- logger.d("added"..tostring(w:id()).." "..appName.." "..tostring(self:get_hint(w)))
+            end
         end
     end
 end
 function obj:callback_window_destroyed(w, appName, event)
     if w then
         if windows[w:id()]  then
-            hint = windows[w:id()]
+            local hint = windows[w:id()]
             if hint then
                 hints[hint] = nil
             end
@@ -102,6 +109,9 @@ function obj:get_hint(w)
     --     hs.alert.show(hint)
     -- end
     return windows[w:id()]
+end
+function obj:get_windows()
+    return hints
 end
 
 function obj:get_window(h)
@@ -320,10 +330,10 @@ function obj:show_hints()
     if obj.event_start_flags then
         local visiblewindows = {}
         local otherwindows = {}
-        local normal = hs.window.filter.new(hs.window.filter.default):getWindows()
+        -- local normal = hs.window.filter.new(hs.window.filter.default):getWindows()
         local allwindows = hs.window.orderedWindows()
         hs.fnutils.each(allwindows, function(window)
-            if hs.fnutils.contains(normal, window ) then
+            if windows[window:id()] then
                 local wframe = window:frame()
                 for _, w in pairs(visiblewindows) do
                     if wframe:intersect(w:frame()).area >= wframe.area*0.95 then
@@ -335,9 +345,9 @@ function obj:show_hints()
                 visiblewindows[window:id()] = window
             end
         end)
-        for _,w in pairs(normal) do
-            if not hs.fnutils.contains(visiblewindows, w ) then
-                otherwindows[w:id()] = w 
+        for i,hint in pairs(windows) do
+            if not visiblewindows[i] then
+                otherwindows[i] = self:get_window(hint)
             end
         end
         for _,w in pairs(visiblewindows) do
