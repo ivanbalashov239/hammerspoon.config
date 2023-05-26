@@ -1,5 +1,38 @@
 local logger = hs.logger.new("init", "debug")
 local hyper = {"ctrl", "alt", "cmd", "shift"}
+-- function sortedbyvalue(inp, f)
+--     local f = f or function(a, b)
+--         return a[2] > b[2]
+--     end
+--     local temp = {}
+--     for k,v in pairs(inp) do
+--         table.insert(temp, {k,v})
+--     end
+--     table.sort(temp, f)
+--     return temp
+-- end
+-- function maxvalue(inp, f)
+--     local result = nil
+--     local temp = sortedbyvalue(inp, f)
+--     if #temp > 0 then
+--         result = temp[1]
+--     end
+--     return result
+-- end
+-- function deepcopy(orig)
+--     local orig_type = type(orig)
+--     local copy
+--     if orig_type == 'table' then
+--         copy = {}
+--         for orig_key, orig_value in next, orig, nil do
+--             copy[deepcopy(orig_key)] = deepcopy(orig_value)
+--         end
+--         setmetatable(copy, deepcopy(getmetatable(orig)))
+--     else -- number, string, boolean, etc
+--         copy = orig
+--     end
+--     return copy
+-- end
 function reload_layout(layout)
     hs.timer.doAfter(0.1, function()
         if layout == "Tall" then

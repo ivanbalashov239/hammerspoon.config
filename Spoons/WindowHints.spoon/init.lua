@@ -12,6 +12,46 @@ obj.license = "MIT - https://opensource.org/licenses/MIT"
 obj.apps = {}
 local history_path = "~/.hammerspoon/hints.json"
 local history = hs.json.read(history_path) or {}
+local launcher = {}
+-- local perapp = {}
+-- for hint, byid in pairs(history) do
+--     for id, counter in pairs(byid) do
+--         local el = perapp[id] or {}
+--         el[hint] = counter
+--         perapp[id] = el
+--     end
+-- end
+-- for id, hints in pairs(perapp) do
+--     perapp[id] = maxvalue(hints)
+-- end
+
+-- local temphistory = deepcopy(history)
+-- for hint, byid in pairs(temphistory) do
+--     local b = sortedbyvalue(byid)
+--     for _, k in ipairs(b) do
+--         local id = k[1]
+--         local counter = k[2]
+--         -- logger.d(hint.." "..tostring(id).."="..tostring(counter))
+--         -- logger.d(hs.inspect(perapp[id]))
+--         if perapp[id] and perapp[id][1] == hint then
+--             perapp[id] = nil
+--             byid[id] = nil
+--             if #b == 1 then
+--                 byid = nil
+--             end
+--             temphistory[hint] = byid
+--             launcher[hint] = id
+--             logger.d("launcher "..hint.." "..id)
+--         end
+--     end
+-- end
+-- for hint, byid in pairs(temphistory) do
+--     -- logger.d(hint.." " ..hs.inspect(byid))
+--     if byid and not byid == {} then
+--         launcher[hint] = maxvalue(byid)[1]
+--         logger.d("launcher "..hint.." "..launcher[hint])
+--     end
+-- end
 local spaces = {}
 local hints = {}
 local hintboxes = {}
@@ -54,7 +94,7 @@ local function newhint(hint)
     return c
 end
 
-function obj:get_char(strings)
+function obj:get_char(strings, bundleID)
     -- logger.d("get_char")
     for _, s in pairs(strings) do
         s = string.lower(s)
@@ -62,9 +102,11 @@ function obj:get_char(strings)
         for c in s:gmatch"." do
             if letters[c] and not self:get_window(c) then
                 -- logger.d("        "..c)
-                local h = history[s] or {}
-                table.insert(h, c)
-                history[s] = h
+                local byid = history[c] or {}
+                local counter = byid[bundleID] or 0
+                counter = counter + 1
+                byid[bundleID] = counter
+                history[c] = byid
                 hs.json.write(history, history_path, true, true)
                 return c
             end
@@ -81,7 +123,7 @@ function obj:callback_window_created(w, appName, event)
         end
         local normalwindows = normalfilter:getWindows()
         if hs.fnutils.contains(normalwindows, w) then
-            local hint = self:get_char({ appName, w:title() })
+            local hint = self:get_char({ appName, w:title() }, w:application():bundleID())
             if hint then
                 hints[hint] = w
                 windows[w:id()] = hint
@@ -499,7 +541,7 @@ end
 --- args.charorder
 function obj:init(args)
     local args = args or {}
-    local mods = args.mods or {"cmd"}
+    local mods = args.mods or {"leftcmd"}
     self.mods = mods
     local key = args.key or "space"
     self.key = key
@@ -578,6 +620,11 @@ function obj:init(args)
                     window:focus()
                     return exit()
                 end
+            -- else
+            --     if not self.selecting and launcher[char] then
+            --         local bundleID = launcher[char]
+            --         hs.application.launchOrFocusByBundleID(bundleID)
+            --     end
             end
         else
             local running = true
