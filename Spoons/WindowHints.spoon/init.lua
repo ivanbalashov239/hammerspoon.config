@@ -30,7 +30,7 @@ local function newhint(hint)
         id = "background",
         fillColor = {  red = 1, green = 1, blue = 0},
         canvasAlpha=0.5,
-        roundedRectRadii={ xRadius = 10, yRadius = 10 }
+        roundedRectRadii={ xRadius = 20, yRadius = 20 }
     })
     c:insertElement({ 
         type="text",
@@ -41,9 +41,15 @@ local function newhint(hint)
         text=string.upper(hint),
         textColor= {red=0, green=0, blue=0},
         textAlignment="center",
-        textSize=70,
+        textSize=hframe.h,
         absoluteSize=false,
         absolutePosition=false,
+        frame = {
+            x = 0,
+            y = -10,
+            w = hframe.w,
+            h = hframe.h,
+        },
     })
     return c
 end
@@ -120,112 +126,116 @@ local function set_line(canvas, args)
     local i = args.i
     local sframe = args.sframe
     local line_height = args.line_height
+    if line_height/sframe.h*100 > 20 then
+        line_height = sframe.h*0.2
+    end
+    local border = math.min(sframe.w*0.02, line_height*0.02)
     local text = "" 
     if title:sub(-#appName):lower() == appName:lower() then
         title = title:sub(1, -#appName-1)
     elseif title:sub(1, #appName):lower() == appName:lower() then
         title = title:sub(#appName+1, #title)
     end
-    local line_height_perc = line_height/sframe.h*100
-    if line_height_perc > 20 then
-        line_height_perc = 20
-    end
     appName = strim(appName)
     title = strim(title)
     text = appName.." "..title
     -- logger.d(text)
+    local backframe = {
+            y = i*line_height+border,
+            h = line_height-border*2,
+            x = border,
+            w = sframe.w-border*2,
+        }
     canvas:insertElement({
         type = "rectangle",
         id = "background",
         fillColor = {  red = 0, green = 0, blue = 0},
         canvasAlpha=0.5,
         roundedRectRadii={ xRadius = 20, yRadius = 20 },
-        frame = {
-            y = tostring(i*line_height_perc+1).."%",
-            h = tostring(line_height_perc-1).."%",
-            x = "1%",
-            w = "99%",
-        },
+        frame = backframe,
     })
+    local imageframe = {
+            y = backframe.y+border,
+            h = backframe.h-border*2,
+            x = backframe.x+border,
+            w = backframe.h-border*2,
+        }
     canvas:insertElement({ 
         type="image",
         absoluteSize=false,
         absolutePosition=false,
         image = hs.image.imageFromAppBundle(bundleID),
-        frame = {
-            y = tostring(i*line_height_perc+2).."%",
-            h = tostring(line_height_perc).."%",
-            x = "0%",
-            w = "20%",
-        },
+        frame = imageframe,
     })
-    local hint_frame = {
-            y = tostring(i*line_height_perc+9).."%",
-            -- h = tostring(line_height/sframe.h*100).."%",
-            x = "10%",
-            w = "10%",
-            h = "7%",
+    local hintframe = {
+            y = imageframe.y+imageframe.h/2,
+            h = imageframe.h/2,
+            x = imageframe.x+imageframe.w/2,
+            w = imageframe.w/2,
     }
     canvas:insertElement({
-        type = "circle",
-        id = "background",
+        type = "rectangle",
+        id = "hintbox",
         fillColor = {  red = 1, green = 1, blue = 0},
         canvasAlpha=0.5,
-        -- roundedRectRadii={ xRadius = 50, yRadius = 50 },
-        -- frame = hint_frame,
-        radius = "5%",
-        center = {
-            y = tostring(i*line_height_perc+12).."%",
-            x = "15%",
-        },
+        roundedRectRadii={ xRadius = 20, yRadius = 20 },
+        frame = hintframe,
+        -- radius = hintframe.h/2,
+        -- center = {
+        --     x = hintframe.x+hintframe.w/2,
+        --     y = hintframe.y+hintframe.h/2
+        -- },
     })
     canvas:insertElement({ 
         type="text",
         text=hint,
         textColor= {red=0, green=0, blue=0},
         textAlignment="center",
-        textSize=40,
+        textSize=hintframe.h*0.8,
         absoluteSize=false,
         absolutePosition=false,
-        frame = hint_frame,
+        frame = hintframe,
     })
-    logger.d(title)
-    logger.d(#title)
+    -- logger.d(title)
+    -- logger.d(#title)
     if #title < 5 then
         text = appName.." "..title
     else
         text = appName
     end
+    local appnameframe = {
+        y = imageframe.y,
+        h = backframe.h/2-border*2,
+        x = imageframe.x+imageframe.w+border*2,
+        w = backframe.w-imageframe.w-border*4,
+    }
     canvas:insertElement({ 
         type="text",
+        id = "appname",
         text=text,
         textColor= {red=1, green=1, blue=1},
         textAlignment="left",
-        textSize=50,
+        textSize=appnameframe.h*0.8,
         absoluteSize=false,
         absolutePosition=false,
-        frame = {
-            y = tostring(i*line_height_perc+2).."%",
-            h = tostring(line_height_perc).."%",
-            x = "21%",
-            w = "79%",
-        },
+        frame = appnameframe,
     })
     if #title >= 5 then
+        local titleframe = {
+            y = appnameframe.y+appnameframe.h+border*2,
+            h = backframe.h/2-border*2,
+            x = appnameframe.x,
+            w = appnameframe.w,
+        }
         canvas:insertElement({ 
             type="text",
             text=title,
             textColor= {red=1, green=1, blue=1},
             textAlignment="left",
-            textSize=30,
+            textSize=titleframe.h*0.5,
             absoluteSize=false,
             absolutePosition=false,
-            frame = {
-                y = tostring(i*line_height_perc+8).."%",
-                h = tostring(line_height_perc).."%",
-                x = "21%",
-                w = "79%",
-            },
+            frame = titleframe,
         })
     end
 
