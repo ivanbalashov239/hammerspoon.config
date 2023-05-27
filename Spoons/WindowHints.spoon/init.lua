@@ -53,6 +53,7 @@ local function set_launcher()
             logger.d("launcher "..hint.." "..launcher[hint])
         end
     end
+    logger.d(hs.inspect(launcher))
 end
 set_launcher()
 hs.timer.doEvery(120,set_launcher)

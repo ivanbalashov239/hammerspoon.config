@@ -1,70 +1,68 @@
 {
-  "o" : {
-    "com.colliderli.iina" : 1,
-    "com.microsoft.teams" : 2,
-    "org.m0k.transmission" : 1
+  "o": {
+    "com.colliderli.iina": 1,
+    "com.microsoft.teams": 2,
+    "org.m0k.transmission": 1
   },
-  "h" : {
-    "com.jetbrains.pycharm" : 1
+  "h": {
+    "com.jetbrains.pycharm": 1
   },
-  "p" : {
-    "com.jetbrains.pycharm" : 1
+  "p": {
+    "com.jetbrains.pycharm": 100
   },
-  "a" : {
-    "org.alacritty" : 1
+  "a": {
+    "org.alacritty": 1
   },
-  "i" : {
-    "com.colliderli.iina" : 1,
-    "com.microsoft.teams" : 2,
-    "org.m0k.transmission" : 1
+  "i": {
+    "com.colliderli.iina": 10,
+    "com.microsoft.teams": 2,
+    "org.m0k.transmission": 1
   },
-  "y" : {
-    "net.ankiweb.dtop" : 2,
-    "com.jetbrains.pycharm" : 1,
-    "com.raycast.macos" : 5
+  "y": {
+    "net.ankiweb.dtop": 2,
+    "com.jetbrains.pycharm": 1
   },
-  "r" : {
-    "com.raycast.macos" : 1,
-    "com.microsoft.Outlook" : 1
+  "r": {
+    "com.raycast.macos": 100
   },
-  "c" : {
-    "com.microsoft.VSCode" : 47
+  "c": {
+    "com.microsoft.VSCode": 47
   },
-  "k" : {
-    "org.keepassxc.keepassxc" : 47
+  "k": {
+    "org.keepassxc.keepassxc": 47
   },
-  "s" : {
-    "com.spotify.client" : 47
+  "s": {
+    "com.spotify.client": 47
   },
-  "d" : {
-    "com.microsoft.VSCode" : 1,
-    "com.electron.dockerdesktop" : 1
+  "d": {
+    "com.microsoft.VSCode": 1,
+    "com.electron.dockerdesktop": 1
   },
-  "l" : {
-    "com.colliderli.iina" : 1,
-    "com.microsoft.teams" : 2,
-    "org.m0k.transmission" : 1
+  "l": {
+    "com.colliderli.iina": 1,
+    "com.microsoft.teams": 2,
+    "org.m0k.transmission": 1
   },
-  "t" : {
-    "com.tdesktop.Telegram" : 47
+  "t": {
+    "com.tdesktop.Telegram": 47
   },
-  "e" : {
-    "com.colliderli.iina" : 1,
-    "com.microsoft.teams" : 2,
-    "org.m0k.transmission" : 1
+  "e": {
+    "com.colliderli.iina": 1,
+    "com.microsoft.teams": 2,
+    "org.m0k.transmission": 1
   },
-  "u" : {
-    "net.ankiweb.dtop" : 2
+  "u": {
+    "net.ankiweb.dtop": 2
   },
-  "f" : {
-    "org.mozilla.firefox" : 47
+  "f": {
+    "org.mozilla.firefox": 47
   },
-  "n" : {
-    "com.colliderli.iina" : 1,
-    "com.microsoft.teams" : 2,
-    "org.m0k.transmission" : 1
+  "n": {
+    "com.colliderli.iina": 1,
+    "com.microsoft.teams": 2,
+    "org.m0k.transmission": 1
   },
-  "g" : {
-    "com.google.Chrome" : 1
+  "g": {
+    "com.google.Chrome": 100
   }
 }
