@@ -13,45 +13,49 @@ obj.apps = {}
 local history_path = "~/.hammerspoon/hints.json"
 local history = hs.json.read(history_path) or {}
 local launcher = {}
--- local perapp = {}
--- for hint, byid in pairs(history) do
---     for id, counter in pairs(byid) do
---         local el = perapp[id] or {}
---         el[hint] = counter
---         perapp[id] = el
---     end
--- end
--- for id, hints in pairs(perapp) do
---     perapp[id] = maxvalue(hints)
--- end
+local function set_launcher()
+    local perapp = {}
+    for hint, byid in pairs(history) do
+        for id, counter in pairs(byid) do
+            local el = perapp[id] or {}
+            el[hint] = counter
+            perapp[id] = el
+        end
+    end
+    for id, hints in pairs(perapp) do
+        perapp[id] = maxvalue(hints)
+    end
 
--- local temphistory = deepcopy(history)
--- for hint, byid in pairs(temphistory) do
---     local b = sortedbyvalue(byid)
---     for _, k in ipairs(b) do
---         local id = k[1]
---         local counter = k[2]
---         -- logger.d(hint.." "..tostring(id).."="..tostring(counter))
---         -- logger.d(hs.inspect(perapp[id]))
---         if perapp[id] and perapp[id][1] == hint then
---             perapp[id] = nil
---             byid[id] = nil
---             if #b == 1 then
---                 byid = nil
---             end
---             temphistory[hint] = byid
---             launcher[hint] = id
---             logger.d("launcher "..hint.." "..id)
---         end
---     end
--- end
--- for hint, byid in pairs(temphistory) do
---     -- logger.d(hint.." " ..hs.inspect(byid))
---     if byid and not byid == {} then
---         launcher[hint] = maxvalue(byid)[1]
---         logger.d("launcher "..hint.." "..launcher[hint])
---     end
--- end
+    local temphistory = deepcopy(history)
+    for hint, byid in pairs(temphistory) do
+        local b = sortedbyvalue(byid)
+        for _, k in ipairs(b) do
+            local id = k[1]
+            local counter = k[2]
+            -- logger.d(hint.." "..tostring(id).."="..tostring(counter))
+            -- logger.d(hs.inspect(perapp[id]))
+            if perapp[id] and perapp[id][1] == hint then
+                perapp[id] = nil
+                byid[id] = nil
+                if #b == 1 then
+                    byid = nil
+                end
+                temphistory[hint] = byid
+                launcher[hint] = id
+                logger.d("launcher "..hint.." "..id)
+            end
+        end
+    end
+    for hint, byid in pairs(temphistory) do
+        -- logger.d(hint.." " ..hs.inspect(byid))
+        if byid and not byid == {} then
+            launcher[hint] = maxvalue(byid)[1]
+            logger.d("launcher "..hint.." "..launcher[hint])
+        end
+    end
+end
+set_launcher()
+hs.timer.doEvery(120,set_launcher)
 local spaces = {}
 local hints = {}
 local hintboxes = {}
@@ -99,6 +103,14 @@ function obj:get_char(strings, bundleID)
     for _, s in pairs(strings) do
         s = string.lower(s)
         -- logger.d("        "..s)
+        for hint, id in pairs(launcher) do
+            if id == bundleID then
+                if not self:get_window(hint) then
+                    return hint
+                end
+                break
+            end
+        end
         for c in s:gmatch"." do
             if letters[c] and not self:get_window(c) then
                 -- logger.d("        "..c)
@@ -541,7 +553,7 @@ end
 --- args.charorder
 function obj:init(args)
     local args = args or {}
-    local mods = args.mods or {"leftcmd"}
+    local mods = args.mods or {"cmd"}
     self.mods = mods
     local key = args.key or "space"
     self.key = key
@@ -620,11 +632,11 @@ function obj:init(args)
                     window:focus()
                     return exit()
                 end
-            -- else
-            --     if not self.selecting and launcher[char] then
-            --         local bundleID = launcher[char]
-            --         hs.application.launchOrFocusByBundleID(bundleID)
-            --     end
+            else
+                if not self.selecting and launcher[char] then
+                    local bundleID = launcher[char]
+                    hs.application.launchOrFocusByBundleID(bundleID)
+                end
             end
         else
             local running = true

@@ -1,41 +1,70 @@
 {
-  "o" : [
-
-  ],
+  "o" : {
+    "com.colliderli.iina" : 1,
+    "com.microsoft.teams" : 2,
+    "org.m0k.transmission" : 1
+  },
+  "h" : {
+    "com.jetbrains.pycharm" : 1
+  },
+  "p" : {
+    "com.jetbrains.pycharm" : 1
+  },
   "a" : {
     "org.alacritty" : 1
   },
-  "i" : [
-
-  ],
+  "i" : {
+    "com.colliderli.iina" : 1,
+    "com.microsoft.teams" : 2,
+    "org.m0k.transmission" : 1
+  },
+  "y" : {
+    "net.ankiweb.dtop" : 2,
+    "com.jetbrains.pycharm" : 1,
+    "com.raycast.macos" : 5
+  },
   "r" : {
-    "com.raycast.macos" : 1
+    "com.raycast.macos" : 1,
+    "com.microsoft.Outlook" : 1
   },
   "c" : {
-    "com.microsoft.VSCode" : 43
+    "com.microsoft.VSCode" : 47
   },
   "k" : {
-    "org.keepassxc.keepassxc" : 43
+    "org.keepassxc.keepassxc" : 47
   },
   "s" : {
-    "com.spotify.client" : 43
+    "com.spotify.client" : 47
   },
   "d" : {
-    "com.microsoft.VSCode" : 1
+    "com.microsoft.VSCode" : 1,
+    "com.electron.dockerdesktop" : 1
   },
-  "l" : [
-
-  ],
+  "l" : {
+    "com.colliderli.iina" : 1,
+    "com.microsoft.teams" : 2,
+    "org.m0k.transmission" : 1
+  },
   "t" : {
-    "com.tdesktop.Telegram" : 43
+    "com.tdesktop.Telegram" : 47
   },
-  "e" : [
-
-  ],
+  "e" : {
+    "com.colliderli.iina" : 1,
+    "com.microsoft.teams" : 2,
+    "org.m0k.transmission" : 1
+  },
+  "u" : {
+    "net.ankiweb.dtop" : 2
+  },
   "f" : {
-    "org.mozilla.firefox" : 43
+    "org.mozilla.firefox" : 47
   },
-  "n" : [
-
-  ]
+  "n" : {
+    "com.colliderli.iina" : 1,
+    "com.microsoft.teams" : 2,
+    "org.m0k.transmission" : 1
+  },
+  "g" : {
+    "com.google.Chrome" : 1
+  }
 }
