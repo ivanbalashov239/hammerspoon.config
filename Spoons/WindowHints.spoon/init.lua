@@ -42,6 +42,7 @@ local function set_launcher()
                 end
                 temphistory[hint] = byid
                 launcher[hint] = id
+                launcher[id] = hint
                 logger.d("launcher "..hint.." "..id)
             end
         end
@@ -49,7 +50,9 @@ local function set_launcher()
     for hint, byid in pairs(temphistory) do
         -- logger.d(hint.." " ..hs.inspect(byid))
         if byid and not byid == {} then
-            launcher[hint] = maxvalue(byid)[1]
+            local mv = maxvalue(byid)[1]
+            launcher[hint] = mv
+            launcher[mv] = hint
             logger.d("launcher "..hint.." "..launcher[hint])
         end
     end
@@ -104,13 +107,8 @@ function obj:get_char(strings, bundleID)
     for _, s in pairs(strings) do
         s = string.lower(s)
         -- logger.d("        "..s)
-        for hint, id in pairs(launcher) do
-            if id == bundleID then
-                if not self:get_window(hint) then
-                    return hint
-                end
-                break
-            end
+        if launcher[bundleID] and not self:get_window(launcher[bundleID]) then
+            return launcher[bundleID]
         end
         for c in s:gmatch"." do
             if letters[c] and not self:get_window(c) then
