@@ -1,68 +1,191 @@
 {
-  "o": {
-    "org.m0k.transmission": 1,
-    "com.colliderli.iina": 1,
-    "com.microsoft.teams": 2
+  "p" : {
+    "com.jetbrains.pycharm" : 100
   },
-  "h": {
-    "com.jetbrains.pycharm": 1
+  "c" : {
+    "com.microsoft.VSCode" : 91,
+    "org.chromium.Chromium" : 22,
+    "com.microsoft.Excel" : 2,
+    "com.apple.controlcenter" : 5
   },
-  "p": {
-    "com.jetbrains.pycharm": 100
+  "d" : {
+    "com.electron.dockerdesktop" : 1,
+    "com.microsoft.VSCode" : 4,
+    "com.checkpoint.eps_vpn.ui" : 2,
+    "com.apple.finder" : 1
   },
-  "a": {
-    "org.alacritty": 1
+  "r" : {
+    "com.microsoft.Excel" : 1,
+    "com.raycast.macos" : 1000,
+    "com.microsoft.teams" : 5,
+    "com.apple.LocalAuthentication.UIAgent" : 1
   },
-  "i": {
-    "org.m0k.transmission": 1,
-    "com.colliderli.iina": 10,
-    "com.microsoft.teams": 2
+  "e" : {
+    "com.google.Chrome" : 1,
+    "com.microsoft.Outlook" : 1,
+    "com.apple.finder" : 2,
+    "com.hegenberg.BetterTouchTool" : 1,
+    "com.apple.controlcenter" : 13,
+    "org.keepassxc.keepassxc" : 3,
+    "com.microsoft.Excel" : 12,
+    "com.lwouis.alt-tab-macos" : 16,
+    "org.mozilla.firefox" : 1,
+    "com.amethyst.Amethyst" : 1,
+    "com.tdesktop.Telegram" : 11,
+    "org.alacritty" : 1,
+    "com.microsoft.teams" : 75,
+    "com.checkpoint.eps_vpn.ui" : 5,
+    "net.ankiweb.dtop" : 40,
+    "com.apple.LocalAuthentication.UIAgent" : 1,
+    "com.colliderli.iina" : 1,
+    "com.sindresorhus.Velja" : 1,
+    "com.microsoft.VSCode" : 73,
+    "org.m0k.transmission" : 1,
+    "com.paloaltonetworks.GlobalProtect.client" : 1
   },
-  "y": {
-    "com.jetbrains.pycharm": 1,
-    "net.ankiweb.dtop": 2
+  "s" : {
+    "com.spotify.client" : 100
   },
-  "r": {
-    "com.raycast.macos": 100
+  "f" : {
+    "org.mozilla.firefox" : 100
   },
-  "c": {
-    "com.microsoft.VSCode": 48
+  "t" : {
+    "com.tdesktop.Telegram" : 100
   },
-  "k": {
-    "org.keepassxc.keepassxc": 48
+  "g" : {
+    "com.google.Chrome" : 100,
+    "com.tdesktop.Telegram" : 1
   },
-  "s": {
-    "com.spotify.client": 48
+  "u" : {
+    "com.apple.LocalAuthentication.UIAgent" : 1,
+    "com.apple.accessibility.universalAccessAuthWarn" : 15,
+    "com.apple.SecurityAgent" : 1,
+    "net.ankiweb.dtop" : 2,
+    "com.apple.UserNotificationCenter" : 1,
+    "com.macility.keycue" : 4
   },
-  "d": {
-    "com.microsoft.VSCode": 1,
-    "com.electron.dockerdesktop": 1
+  "h" : {
+    "com.amethyst.Amethyst" : 1,
+    "com.macility.keycue" : 1,
+    "org.chromium.Chromium" : 5,
+    "com.jetbrains.pycharm" : 2,
+    "com.apple.finder" : 2,
+    "com.microsoft.teams" : 1,
+    "com.dwarvesv.minimalbar" : 1
   },
-  "l": {
-    "org.m0k.transmission": 1,
-    "com.colliderli.iina": 1,
-    "com.microsoft.teams": 2
+  "v" : {
+    "com.sindresorhus.Velja" : 13,
+    "com.apple.ActivityMonitor" : 69
   },
-  "t": {
-    "com.tdesktop.Telegram": 48
+  "i" : {
+    "net.ankiweb.dtop" : 8,
+    "org.m0k.transmission" : 1,
+    "com.microsoft.Excel" : 2,
+    "com.apple.ActivityMonitor" : 1,
+    "com.apple.finder" : 6,
+    "com.colliderli.iina" : 10,
+    "com.microsoft.teams" : 2,
+    "com.microsoft.Outlook" : 69
   },
-  "e": {
-    "org.m0k.transmission": 1,
-    "com.colliderli.iina": 1,
-    "com.microsoft.teams": 2
+  "w" : {
+    "desktop.WhatsApp" : 72
   },
-  "u": {
-    "net.ankiweb.dtop": 2
+  "x" : {
+    "org.keepassxc.keepassxc" : 1,
+    "com.microsoft.Excel" : 1
   },
-  "f": {
-    "org.mozilla.firefox": 48
+  "k" : {
+    "org.keepassxc.keepassxc" : 100
   },
-  "n": {
-    "org.m0k.transmission": 1,
-    "com.colliderli.iina": 1,
-    "com.microsoft.teams": 2
+  "y" : {
+    "com.jetbrains.pycharm" : 16,
+    "com.apple.systempreferences" : 8,
+    "net.ankiweb.dtop" : 2,
+    "com.raycast.macos" : 17,
+    "org.alacritty" : 1,
+    "com.macility.keycue" : 1
   },
-  "g": {
-    "com.google.Chrome": 100
+  "l" : {
+    "com.google.Chrome" : 1,
+    "com.microsoft.Outlook" : 1,
+    "com.apple.finder" : 2,
+    "com.hegenberg.BetterTouchTool" : 1,
+    "com.apple.controlcenter" : 13,
+    "org.keepassxc.keepassxc" : 3,
+    "com.microsoft.Excel" : 12,
+    "com.lwouis.alt-tab-macos" : 16,
+    "org.mozilla.firefox" : 1,
+    "com.amethyst.Amethyst" : 1,
+    "com.tdesktop.Telegram" : 11,
+    "org.alacritty" : 1,
+    "com.microsoft.teams" : 75,
+    "com.checkpoint.eps_vpn.ui" : 5,
+    "net.ankiweb.dtop" : 40,
+    "com.apple.LocalAuthentication.UIAgent" : 1,
+    "com.colliderli.iina" : 1,
+    "com.sindresorhus.Velja" : 1,
+    "com.microsoft.VSCode" : 73,
+    "org.m0k.transmission" : 1,
+    "com.paloaltonetworks.GlobalProtect.client" : 1
+  },
+  "n" : {
+    "com.google.Chrome" : 1,
+    "com.microsoft.Outlook" : 1,
+    "com.apple.finder" : 2,
+    "com.hegenberg.BetterTouchTool" : 1,
+    "com.apple.controlcenter" : 13,
+    "org.keepassxc.keepassxc" : 3,
+    "com.microsoft.Excel" : 12,
+    "com.lwouis.alt-tab-macos" : 16,
+    "org.mozilla.firefox" : 1,
+    "com.amethyst.Amethyst" : 1,
+    "com.tdesktop.Telegram" : 11,
+    "org.alacritty" : 1,
+    "com.microsoft.teams" : 75,
+    "com.checkpoint.eps_vpn.ui" : 5,
+    "net.ankiweb.dtop" : 40,
+    "com.apple.LocalAuthentication.UIAgent" : 1,
+    "com.colliderli.iina" : 1,
+    "com.sindresorhus.Velja" : 1,
+    "com.microsoft.VSCode" : 73,
+    "org.m0k.transmission" : 1,
+    "com.paloaltonetworks.GlobalProtect.client" : 1
+  },
+  "a" : {
+    "com.amethyst.Amethyst" : 1,
+    "net.ankiweb.dtop" : 1,
+    "org.alacritty" : 100,
+    "com.apple.Safari" : 1,
+    "com.raycast.macos" : 23,
+    "com.lwouis.alt-tab-macos" : 3,
+    "org.pqrs.Karabiner-EventViewer" : 1
+  },
+  "o" : {
+    "com.google.Chrome" : 1,
+    "com.microsoft.Outlook" : 1,
+    "com.apple.finder" : 2,
+    "com.hegenberg.BetterTouchTool" : 1,
+    "com.apple.controlcenter" : 13,
+    "org.keepassxc.keepassxc" : 3,
+    "com.microsoft.Excel" : 12,
+    "com.lwouis.alt-tab-macos" : 16,
+    "org.mozilla.firefox" : 1,
+    "com.amethyst.Amethyst" : 1,
+    "com.tdesktop.Telegram" : 11,
+    "org.alacritty" : 1,
+    "com.microsoft.teams" : 75,
+    "com.checkpoint.eps_vpn.ui" : 5,
+    "net.ankiweb.dtop" : 40,
+    "com.apple.LocalAuthentication.UIAgent" : 1,
+    "com.colliderli.iina" : 1,
+    "com.sindresorhus.Velja" : 1,
+    "com.microsoft.VSCode" : 73,
+    "org.m0k.transmission" : 1,
+    "com.paloaltonetworks.GlobalProtect.client" : 1
+  },
+  "b" : {
+    "me.waydabber.BetterDummy" : 2,
+    "com.lwouis.alt-tab-macos" : 4,
+    "com.hegenberg.BetterTouchTool" : 4
   }
 }

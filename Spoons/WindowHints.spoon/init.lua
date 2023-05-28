@@ -32,30 +32,32 @@ local function set_launcher()
         for _, k in ipairs(b) do
             local id = k[1]
             local counter = k[2]
-            -- logger.d(hint.." "..tostring(id).."="..tostring(counter))
-            -- logger.d(hs.inspect(perapp[id]))
-            if perapp[id] and perapp[id][1] == hint then
-                perapp[id] = nil
-                byid[id] = nil
-                if #b == 1 then
-                    byid = nil
+            if counter > 90 then
+                -- logger.d(hint.." "..tostring(id).."="..tostring(counter))
+                -- logger.d(hs.inspect(perapp[id]))
+                if perapp[id] and perapp[id][1] == hint then
+                    perapp[id] = nil
+                    byid[id] = nil
+                    if #b == 1 then
+                        byid = nil
+                    end
+                    temphistory[hint] = byid
+                    launcher[hint] = id
+                    launcher[id] = hint
+                    logger.d("launcher "..hint.." "..id)
                 end
-                temphistory[hint] = byid
-                launcher[hint] = id
-                launcher[id] = hint
-                logger.d("launcher "..hint.." "..id)
             end
         end
     end
-    for hint, byid in pairs(temphistory) do
-        -- logger.d(hint.." " ..hs.inspect(byid))
-        if byid and not byid == {} then
-            local mv = maxvalue(byid)[1]
-            launcher[hint] = mv
-            launcher[mv] = hint
-            logger.d("launcher "..hint.." "..launcher[hint])
-        end
-    end
+    -- for hint, byid in pairs(temphistory) do
+    --     -- logger.d(hint.." " ..hs.inspect(byid))
+    --     if byid and not byid == {} then
+    --         local mv = maxvalue(byid)[1]
+    --         launcher[hint] = mv
+    --         launcher[mv] = hint
+    --         logger.d("launcher "..hint.." "..launcher[hint])
+    --     end
+    -- end
     logger.d(hs.inspect(launcher))
 end
 set_launcher()
@@ -111,7 +113,7 @@ function obj:get_char(strings, bundleID)
             return launcher[bundleID]
         end
         for c in s:gmatch"." do
-            if letters[c] and not self:get_window(c) then
+            if letters[c] and not launcher[c] and not self:get_window(c) then
                 -- logger.d("        "..c)
                 local byid = history[c] or {}
                 local counter = byid[bundleID] or 0
@@ -127,7 +129,7 @@ end
 
 local normalfilter = hs.window.filter.new(hs.window.filter.default)
 function obj:callback_window_created(w, appName, event)
-    if w and appName and appName ~= "Hammerspoon" then
+    if w and appName and not hs.fnutils.contains({"Hammerspoon", "Amethyst"}, appName) then
         -- logger.d(tostring(w:id()).." "..appName.." "..tostring(self:get_hint(w)))
         if windows[w:id()] then
             return
@@ -307,7 +309,6 @@ end
 local hframe = hs.geometry.new({w=500, h=1000})
 
 obj.menu_canvases = {}
--- TODO MAKE IT PER SCREEN AND ON ITERATION ADD NEW TEXT ELEMENTS INSTEAD OF TEXT LINE WITH YOUR OWN COORD CALCULATION
 function obj:show_menu(allwindows)
     local screens = {}
     for _, w in pairs(allwindows) do
@@ -403,6 +404,7 @@ function obj:show_hints()
                 otherwindows[i] = self:get_window(hint)
             end
         end
+        self:show_menu(otherwindows)
         for _,w in pairs(visiblewindows) do
             if w then
                 local hint = self:get_hint(w)
@@ -422,7 +424,6 @@ function obj:show_hints()
                 end
             end
         end
-        self:show_menu(otherwindows)
     end
 end
 function obj:hide_hints()
@@ -436,8 +437,33 @@ function obj:switcher(args)
     self.eventtap:start()
     self:show_hints()
 end
+function obj.updatespaces(spaceid)
+    local spaceid = spaceid
+    if spaceid == -1 then
+        -- spaceid = 
+        local screen = hs.mouse.getCurrentScreen()
+        spaceid=hs.spaces.activeSpaceOnScreen(screen) 
+    end
+    local spw = hs.spaces.windowsForSpace(spaceid) or {}
+    -- logger.d(hs.inspect({windows=windows}))
+    spw = hs.fnutils.filter(spw, function(el)
+        if windows[el] then
+            -- logger.d(hs.inspect({id=el, hint=windows[el]}))
+            return true
+        end
+        -- if hs.fnutils.contains(normalwindows, hs.window.get(el)) then
+        --     return true
+        -- end
+    end)
+    -- logger.d(hs.inspect({spw=spw}))
+
+    spaces[spaceid] = spw
+    -- logger.d(hs.inspect({
+    --     spaces=spaces
+    -- }))
+end
 function obj.windowsForSpace(spaceid)
-    return spaces[spaceid]
+    return spaces[spaceid] or {}
 end
 obj.filter = hs.window.filter.new(hs.window.filter.default)
 function obj.addWindowsToSpace(spaceid, windows)
@@ -448,47 +474,52 @@ function obj.addWindowsToSpace(spaceid, windows)
     local windows = windows or {}
     if #windows > 0 then
         if not spaceid then
-            local spaces = hs.spaces.spacesForScreen(screen)
+            local screenspaces = hs.spaces.spacesForScreen(screen)
             if #windows > 1 then
-                -- logger.d("looking for spaceid")
+                logger.d("looking for spaceid")
                 layout = "Tall"
-                for i, space in pairs(spaces) do
-                    -- logger.d(tostring(i).." "..tostring(space))
+                logger.d(hs.inspect({spaces=spaces}))
+                for i, space in ipairs(screenspaces) do
+                    logger.d(hs.inspect({i, space}))
                     -- local spw = hs.spaces.windowsForSpace(space)
-                    local spw = hs.fnutils.filter(hs.spaces.windowsForSpace(space), function(el)
-                        if hs.fnutils.contains(normalwindows, hs.window.get(el)) then
-                            return true
-                        end
-                    end)
+                    local spw = obj.windowsForSpace(space)
+                    logger.d(hs.inspect({spaceid=space, spw=spw}))
                     -- logger.d(tostring(space).." windows="..tostring(#spw))
-                    if #spw == #windows and hs.fnutils.every(windows, function(el) return hs.fnutils.contains(spw, el:id()) end) then
-                        -- logger.d("using existing space")
-                        spaceid = space
-                        if not spaceid == hs.spaces.activeSpaceOnScreen(screen) then
-                            hs.spaces.gotoSpace(spaceid)
+                    logger.d(hs.inspect({i= i, space=space, spaceid=spaceid, nspw=#spw, spw=spw, spaces=spaces, windows=windows}))
+                    if not spaceid then
+                        if i > 1 and #spw == #windows and hs.fnutils.every(windows, function(el) return hs.fnutils.contains(spw, el:id()) end) then
+                            logger.d("using existing space")
+                            spaceid = space
+                            if spaceid ~= hs.spaces.activeSpaceOnScreen(screen) then
+                                hs.spaces.gotoSpace(spaceid)
+                            end
+                            return
+                        elseif i > 1 and #spw == 0 then
+                            logger.d(hs.inspect({name="reusing an empty one ", i=i, space=space, spaceid=spaceid, nspw=#spw, spw=spw, spaces=spaces, windows=windows}))
+                            spaceid = space
+                            -- break
+                        elseif i == #screenspaces then
+                            logger.d("created a new one")
+                            hs.spaces.addSpaceToScreen(screen, false)
+                            local lspaces = hs.spaces.spacesForScreen(screen)
+                            spaceid = lspaces[#lspaces]
+                            -- break
                         end
-                        return
-                    elseif i > 1 and #spw == 0 then
-                        -- logger.d("reusing an empty one")
-                        spaceid = space
-                        break
-                    elseif i == #spaces then
-                        -- logger.d("created a new one")
-                        hs.spaces.addSpaceToScreen(screen, false)
-                        local lspaces = hs.spaces.spacesForScreen(screen)
-                        spaceid = lspaces[#lspaces]
-                        break
+                    else
                     end
                 end
             else
-                -- logger.d("using fullscreen space")
-                spaceid = spaces[1]
+                logger.d("using fullscreen space")
+                spaceid = screenspaces[1]
             end
         else
             screen = hs.screen.find(hs.spaces.spaceDisplay(spaceid))
         end
+        -- TODO use amethyst key shortcuts to move window to a space by index: focus(), keystroke(["[","]","{","}"...][spaceid_index])
         -- local spw = hs.spaces.windowsForSpace(spaceid)
-        local spw = hs.fnutils.filter(hs.spaces.windowsForSpace(spaceid), function(el)
+        local spw = obj.windowsForSpace(spaceid)
+        logger.d(hs.inspect({spw=spw}))
+        spw = hs.fnutils.filter(spw, function(el)
             if hs.fnutils.contains(normalwindows, hs.window.get(el)) then
                 return true
             end
@@ -501,40 +532,41 @@ function obj.addWindowsToSpace(spaceid, windows)
         end
         if another_screen then
             local current_space=hs.spaces.activeSpaceOnScreen(screen) 
-            -- logger.d("space is "..tostring(spaceid))
+            logger.d("space is "..tostring(spaceid))
             for i, w in pairs(windows) do
                 if not hs.fnutils.contains(spw, w:id()) then
-                    -- logger.d("moved out "..w:application():name())
+                    logger.d("moved out "..w:application():name())
                     w:moveToScreen(another_screen, true, false, 0)
                 else
                     w:focus()
                 end
             end
-            -- logger.d("switched to space "..tostring(spaceid))
-            if not spaceid == current_space then
+            logger.d(hs.inspect({current_space=current_space, spaceid=spaceid, spaces=spaces}))
+            if spaceid ~= current_space then
+                logger.d("switched to space "..tostring(spaceid))
                 hs.spaces.gotoSpace(spaceid)
             end
-            -- logger.d("start timer")
+            logger.d("start timer")
             hs.timer.doAfter(0.2, function()
-                -- logger.d("started timedout function")
+                logger.d("started timedout function")
                 for _, w in pairs(windows) do
                     hs.timer.doAfter(0.2, function()
                         if not hs.fnutils.contains(spw, w:id()) then
                             w:moveToScreen(screen, true, false, 0)
-                            -- logger.d(w:application():name().." moved to space on your screen")
+                            logger.d(w:application():name().." moved to space on your screen")
                         else
                             w:focus()
                         end
                         -- w:move(screen:frame(), screen, nil, 0)
                     end)
                 end
-                -- reload_layout(layout)
+                reload_layout(layout)
                 hs.timer.doAfter(0.5, function()
                     reload_layout(layout)
                     windows[1]:focus()
                     reload_layout(layout)
                 end)
-                -- logger.d("moved to space on your screen")
+                logger.d("moved to space on your screen")
             end)
         else
             hs.alert.show("needs a dummy screen to move windows to other spaces")
@@ -585,6 +617,9 @@ function obj:init(args)
     self.screenwatcher = hs.screen.watcher.new(function()
         self.screentimer:stop()
         self.screentimer:start()
+    end)
+    self.spaceswatcher = hs.spaces.watcher.new(function(space)
+        self.updatespaces(space)
     end)
     self.eventtap = hs.eventtap.new({hs.eventtap.event.types.keyUp, hs.eventtap.event.types.keyDown, hs.eventtap.event.types.flagsChanged}, function(event)
         local flags = event:getFlags()
@@ -683,37 +718,29 @@ function obj:start()
     self.filter:subscribe(hs.window.filter.windowCreated, fc)
     self.filter:subscribe(hs.window.filter.windowDestroyed, fd)
     self.screenwatcher:start()
-    -- self.filter:subscribe({hs.window.filter.windowInCurrentSpace, hs.window.filter.windowNotInCurrentSpace}, function(w, appName, event)
-    --     if w then
-    --         local screen = w:screen()
-    --         local spaceid = hs.spaces.activeSpaceOnScreen(screen)
-    --         local spw = spaces[spaceid]
-    --         if spw then
-    --         else
-    --             spw = {}
-    --         end
-    --         if event == "windowInCurrentSpace" then
-    --             table.insert(spw, w:id())
-    --         else
-    --             for i, s in pairs(spw) do
-    --                 if s == w:id() then
-    --                     table.remove(spw, i)
-    --                     break
-    --                 end
-    --             end
-    --         end
-    --         spaces[spaceid] = spw
-    --         -- local normalwindows = self.filter:getWindows()
-    --         -- local spw = hs.spaces.windowsForSpace(spaceid)
-    --         -- local spw = hs.fnutils.filter(hs.spaces.windowsForSpace(spaceid), function(el)
-    --         --             if hs.fnutils.contains(normalwindows, hs.window.get(el)) then
-    --         --                 return true
-    --         --             end
-    --         -- end)
-    --         -- spaces[spaceid] = spw
-    --         logger.d(event.." "..tostring(spaceid).." updated spaces "..#spw)
-    --     end
-    -- end)
+    self.spaceswatcher:start()
+    self.filter:subscribe({hs.window.filter.windowInCurrentSpace, hs.window.filter.windowNotInCurrentSpace}, function(w, appName, event)
+        if w and self:get_hint(w) then
+            local screen = w:screen()
+            local spaceid = hs.spaces.activeSpaceOnScreen(screen)
+            if not spaceid then
+                spaceid = hs.spaces.windowSpaces(w:id())[1] or nil
+                local sh = {}
+                for _, sp in pairs(hs.spaces.windowSpaces(w:id())) do
+                    local spw = hs.spaces.windowsForSpace(sp) or {}
+                    sh[sp]=spw
+                end
+                logger.d(hs.inspect(sh))
+                -- logger.d(hs.inspect({windowspaces=hs.spaces.windowSpaces(w:id())}))
+            end
+            if spaceid then
+                self.updatespaces(spaceid)
+                -- logger.d(hs.inspect({app=appName, event=event, spaces=spaces}))
+            else
+                -- logger.d(hs.inspect({n="nospaceid", app=appName, event=event, spaces=spaces}))
+            end
+        end
+    end)
     hs.hotkey.bind(obj.mods, obj.key, function(...)
         self:switcher(...)
     end)

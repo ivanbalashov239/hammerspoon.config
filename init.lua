@@ -121,12 +121,12 @@ function ptt_ipc(scheme, msgID, msg)
 end
 pttport = hs.ipc.localPort("PushToTalk", ptt_ipc)
 
-hs.loadSpoon("ForceTouchMapper")
+-- hs.loadSpoon("ForceTouchMapper")
 -- spoon.ForceTouchMapper:init()
 -- spoon.ForceTouchMapper.apps = {
 --     ["com.microsoft.VSCode"] = {keyStroke = {{"cmd"}, 'Equal'}}
 -- }
-spoon.ForceTouchMapper:start()
+-- spoon.ForceTouchMapper:start()
 
 -- bind hotkey
 hs.hotkey.bind(hyper, '\\', function()
