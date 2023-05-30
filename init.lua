@@ -120,6 +120,7 @@ function ptt_ipc(scheme, msgID, msg)
     end
 end
 pttport = hs.ipc.localPort("PushToTalk", ptt_ipc)
+spoon.PushToTalk.menubar:autosaveName("pushtotalk")
 
 -- hs.loadSpoon("ForceTouchMapper")
 -- spoon.ForceTouchMapper:init()
@@ -236,9 +237,137 @@ hs.hotkey.bind(hyper, 'x', function()
     end)
 end)
 
+local bluetoothon = hs.task.new("/opt/homebrew/bin/blueutil", function(i)end, function() end, {"-p", "1"})
+local bluetoothoff = hs.task.new("/opt/homebrew/bin/blueutil", function(i)end, function() end, {"-p", "0"})
+local bluetoothbose = hs.task.new("/opt/homebrew/bin/blueutil", function(i)end, function() end, {"-p","1", "--connect", "2c-41-a1-01-67-ca"})
+ 
 
-hs.loadSpoon("MissionControl")
-spoon.MissionControl:init({mods=hyper})
-spoon.MissionControl:start()
+local sleepwatcher = hs.caffeinate.watcher.new(function(event)
+    if event == hs.caffeinate.watcher.systemWillSleep then
+        hs.wifi.setPower(false)
+        bluetoothoff:start()
+    elseif event == hs.caffeinate.watcher.systemDidWake then
+        hs.wifi.setPower(true)
+        bluetoothbose:start()
+    end
+end)
+sleepwatcher:start()
+
+--   ["1800x1125@2x 120Hz 8bpp"] = {
+--     depth = 8.0,
+--     freq = 120.0,
+--     h = 1125,
+--     scale = 2.0,
+--     w = 1800
+--   },
+--   ["1800x1125@2x 47Hz 8bpp"] = {
+--     depth = 8.0,
+--     freq = 47.0,
+--     h = 1125,
+--     scale = 2.0,
+--     w = 1800
+--   },
+--   ["1800x1125@2x 48Hz 8bpp"] = {
+--     depth = 8.0,
+--     freq = 48.0,
+--     h = 1125,
+--     scale = 2.0,
+--     w = 1800
+--   },
+--   ["1800x1125@2x 50Hz 8bpp"] = {
+--     depth = 8.0,
+--     freq = 50.0,
+--     h = 1125,
+--     scale = 2.0,
+--     w = 1800
+--   },
+--   ["1800x1125@2x 59Hz 8bpp"] = {
+--     depth = 8.0,
+--     freq = 59.0,
+--     h = 1125,
+--     scale = 2.0,
+--     w = 1800
+--   },
+--   ["1800x1125@2x 60Hz 8bpp"] = {
+--     depth = 8.0,
+--     freq = 60.0,
+--     h = 1125,
+--     scale = 2.0,
+--     w = 1800
+--   },
+--   ["1800x1169@2x 120Hz 8bpp"] = {
+--     depth = 8.0,
+--     freq = 120.0,
+--     h = 1169,
+--     scale = 2.0,
+--     w = 1800
+--   },
+--   ["1800x1169@2x 47Hz 8bpp"] = {
+--     depth = 8.0,
+--     freq = 47.0,
+--     h = 1169,
+--     scale = 2.0,
+--     w = 1800
+--   },
+--   ["1800x1169@2x 48Hz 8bpp"] = {
+--     depth = 8.0,
+--     freq = 48.0,
+--     h = 1169,
+--     scale = 2.0,
+--     w = 1800
+--   },
+--   ["1800x1169@2x 50Hz 8bpp"] = {
+--     depth = 8.0,
+--     freq = 50.0,
+--     h = 1169,
+--     scale = 2.0,
+--     w = 1800
+--   },
+--   ["1800x1169@2x 59Hz 8bpp"] = {
+--     depth = 8.0,
+--     freq = 59.0,
+--     h = 1169,
+--     scale = 2.0,
+--     w = 1800
+--   },
+--   ["1800x1169@2x 60Hz 8bpp"] = {
+--     depth = 8.0,
+--     freq = 60.0,
+--     h = 1169,
+--     scale = 2.0,
+--     w = 1800
+--   },
+
+menubartoggle = hs.menubar.new()
+menubartoggle:setTitle("*")
+menubartoggle:autosaveName("menubartoggle")
+menubartoggle:setMenu( function()
+    local uuid = "37D8832A-2D66-02CA-B9F7-8F30A301B230"
+    local screen = hs.screen.find(uuid)
+    local mode = screen:currentMode()
+    local modes = screen:availableModes()
+    local smallname = "1800x1125@2x 120Hz 8bpp"
+    local bigname = "1800x1169@2x 120Hz 8bpp"
+    logger.d(hs.inspect(mode))
+    if  mode.desc == smallname then
+        mode = modes[bigname]
+        screen:setMode(1800, 1169, 2, 120, 8)
+    else
+        mode = modes[smallname]
+        screen:setMode(1800, 1125, 2, 120, 8)
+    end
+    return {}
+end)
+
+-- hs.loadSpoon("MissionControl")
+-- spoon.MissionControl:init({mods=hyper})
+-- spoon.MissionControl:start()
+
+-- hs.window.highlight.ui.overlayColor = { 1, 1, 1, 1 }
+-- hs.window.highlight.ui.overlay = false
+-- hs.window.highlight.ui.frameWidth = 10
+-- hs.window.highlight.ui.frameColor = { 0, 0, 0, 0.25 }
+-- local filter = hs.window.filter.new()
+-- hs.window.highlight.start()
 
 hs.alert.show("Config loaded")

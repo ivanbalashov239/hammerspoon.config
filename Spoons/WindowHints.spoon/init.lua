@@ -58,13 +58,16 @@ local function set_launcher()
     --         logger.d("launcher "..hint.." "..launcher[hint])
     --     end
     -- end
-    logger.d(hs.inspect(launcher))
+    -- logger.d(hs.inspect(launcher))
 end
 set_launcher()
 hs.timer.doEvery(120,set_launcher)
 local spaces = {}
+local screen_hints = {}
 local hints = {}
 local hintboxes = {}
+local hintboxcolor = {  red = 1, green = 1, blue = 0}
+local hintboxselectedcolor = {  red = 0.5, green = 0.5, blue = 0.9}
 local windows = {}
 local letters = {}
 local charcodes = {}
@@ -77,8 +80,8 @@ local function newhint(hint)
     local c = hs.canvas.new(hframe)
     c:insertElement({
         type = "rectangle",
-        id = "background",
-        fillColor = {  red = 1, green = 1, blue = 0},
+        id = "hintbox"..string.lower(hint),
+        fillColor = hintboxcolor,
         canvasAlpha=0.5,
         roundedRectRadii={ xRadius = 20, yRadius = 20 }
     })
@@ -115,12 +118,14 @@ function obj:get_char(strings, bundleID)
         for c in s:gmatch"." do
             if letters[c] and not launcher[c] and not self:get_window(c) then
                 -- logger.d("        "..c)
-                local byid = history[c] or {}
-                local counter = byid[bundleID] or 0
-                counter = counter + 1
-                byid[bundleID] = counter
-                history[c] = byid
-                hs.json.write(history, history_path, true, true)
+                if bundleID then
+                    local byid = history[c] or {}
+                    local counter = byid[bundleID] or 0
+                    counter = counter + 1
+                    byid[bundleID] = counter
+                    history[c] = byid
+                    hs.json.write(history, history_path, true, true)
+                end
                 return c
             end
         end
@@ -192,7 +197,7 @@ local function set_line(canvas, args)
     local sframe = args.sframe
     local line_height = args.line_height
     if line_height/sframe.h*100 > 20 then
-        line_height = sframe.h*0.2
+        line_height = sframe.h*0.16
     end
     local border = math.min(sframe.w*0.02, line_height*0.02)
     local text = "" 
@@ -240,8 +245,8 @@ local function set_line(canvas, args)
     }
     canvas:insertElement({
         type = "rectangle",
-        id = "hintbox",
-        fillColor = {  red = 1, green = 1, blue = 0},
+        id = "hintbox"..string.lower(hint),
+        fillColor = hintboxcolor,
         canvasAlpha=0.5,
         roundedRectRadii={ xRadius = 20, yRadius = 20 },
         frame = hintframe,
@@ -324,7 +329,7 @@ function obj:show_menu(allwindows)
     for uuid, windows in pairs(screens) do
         local screen = hs.screen.find(uuid)
         local sframe = screen:frame()
-        if self.menu_canvases[screen] then
+        if self.menu_canvases[screen] and self.menu_canvases[screen].hide then
             self.menu_canvases[screen]:hide()
         end
         sframe.w = sframe.w/3
@@ -370,12 +375,30 @@ function obj:show_menu(allwindows)
         menu_canvas:bringToFront(true)
         self.menu_canvases[screen] = menu_canvas
     end
+    for _,screen in pairs(hs.screen.allScreens()) do
+        local sframe = screen:frame()
+        if not screens[screen:getUUID()] then
+            local char = self:get_char({tostring(screen.name), tostring(uuid)})
+            if char and not screen_hints[char] then
+                -- logger.d(hs.inspect({screen, char}))
+                local c = hintboxes[char]
+                screen_hints[char] = screen
+                local hframe = c:frame()
+                hframe.center = sframe.center
+                c:frame({w=100, h=100, x=sframe.x+sframe.w/2, y=sframe.y+sframe.h/2})
+                c:show()
+                c:bringToFront(true)
+            end
+        end
+    end
 end
 function obj:hide_menu()
+    screen_hints = {}
     for _, menu in pairs(self.menu_canvases) do
         menu:hide()
     end
 end
+-- TODO add hints for empty screens
 function obj:show_hints()
     -- logger.d("show_hints")
     -- for h, w in pairs(hints) do
@@ -432,6 +455,29 @@ function obj:hide_hints()
     end
     self:hide_menu()
 end
+
+function obj:highlight_selected()
+    local screens = hs.screen.allScreens()
+    for hint, hintbox in pairs(hintboxes) do
+        local color = nil
+        local name ="hintbox"..string.lower(hint)
+        if self.selected[hint] then
+            color = hintboxselectedcolor
+        else
+            color = hintboxcolor
+        end
+        hintbox[name].fillColor = color
+        for _, canvas in pairs(self.menu_canvases) do
+            if canvas then
+                local hintbox = canvas[name]
+                if hintbox then
+                    canvas[name].fillColor = color
+                end
+            end
+        end
+    end
+end
+
 function obj:switcher(args)
     self.event_start_flags = {}
     self.eventtap:start()
@@ -465,20 +511,58 @@ end
 function obj.windowsForSpace(spaceid)
     return spaces[spaceid] or {}
 end
+local function moveWinToSpace(w,spaceid)
+    local screen = w:screen()
+    local screenspaces = hs.spaces.spacesForScreen(screen)
+    local spacescreen = hs.screen.find(hs.spaces.spaceDisplay(spaceid))
+    local current_space=hs.spaces.activeSpaceOnScreen(screen) 
+    local mapping = "[]{}=&*+()!#"
+    if screen == spacescreen then
+        local wspc = hs.spaces.windowSpaces(w:id())
+        if not (#wspc > 0 and wspc[1] == spaceid )then
+            for i,k in pairs(screenspaces) do
+                if k == spaceid then 
+                    -- local index = string.sub(mapping, i,i)
+                    local index = hs.keycodes.map[hs.keycodes.map[tostring(i)]]
+                    -- logger.d(hs.inspect({w, i, index, spaceid}))
+                    w:focus()
+                    hs.timer.usleep(200)
+                    hs.eventtap.keyStroke({"control","option", "shift" }, index)
+                    hs.timer.usleep(200)
+                    w:focus()
+                    hs.timer.usleep(400)
+                    break
+                end
+            end
+        else
+            -- logger.d(hs.inspect({w, "focus"}))
+            w:focus()
+        end
+    else
+        -- logger.d(hs.inspect({w, "move to another screen and focus"}))
+        hs.spaces.gotoSpace(spaceid)
+        w:moveToScreen(spacescreen, true, false, 0)
+        w:focus()
+    end
+end
 obj.filter = hs.window.filter.new(hs.window.filter.default)
-function obj.addWindowsToSpace(spaceid, windows)
+function obj.addWindowsToSpace(spaceid, selected)
     local spaceid = spaceid
     local screen = hs.mouse.getCurrentScreen()
     local layout = nil
     local normalwindows = obj.filter:getWindows()
-    local windows = windows or {}
+    local selected = selected or {}
+    local windows = {}
+    for hint, w in pairs(selected) do
+        table.insert(windows, w)
+    end
     if #windows > 0 then
         if not spaceid then
             local screenspaces = hs.spaces.spacesForScreen(screen)
             if #windows > 1 then
                 logger.d("looking for spaceid")
                 layout = "Tall"
-                logger.d(hs.inspect({spaces=spaces}))
+                -- logger.d(hs.inspect({spaces=spaces}))
                 for i, space in ipairs(screenspaces) do
                     logger.d(hs.inspect({i, space}))
                     -- local spw = hs.spaces.windowsForSpace(space)
@@ -500,7 +584,7 @@ function obj.addWindowsToSpace(spaceid, windows)
                             -- break
                         elseif i == #screenspaces then
                             logger.d("created a new one")
-                            hs.spaces.addSpaceToScreen(screen, false)
+                            hs.spaces.addSpaceToScreen(screen)
                             local lspaces = hs.spaces.spacesForScreen(screen)
                             spaceid = lspaces[#lspaces]
                             -- break
@@ -515,62 +599,14 @@ function obj.addWindowsToSpace(spaceid, windows)
         else
             screen = hs.screen.find(hs.spaces.spaceDisplay(spaceid))
         end
-        -- TODO use amethyst key shortcuts to move window to a space by index: focus(), keystroke(["[","]","{","}"...][spaceid_index])
-        -- local spw = hs.spaces.windowsForSpace(spaceid)
-        local spw = obj.windowsForSpace(spaceid)
-        logger.d(hs.inspect({spw=spw}))
-        spw = hs.fnutils.filter(spw, function(el)
-            if hs.fnutils.contains(normalwindows, hs.window.get(el)) then
-                return true
-            end
+        for i, w in pairs(windows) do
+            moveWinToSpace(w, spaceid)
+        end
+        windows[1]:focus()
+        hs.timer.doAfter(0.5, function()
+            windows[1]:focus()
+            reload_layout(layout)
         end)
-        local another_screen = nil
-        for _,s in pairs(hs.screen.allScreens()) do
-            if s ~= screen then
-                another_screen = s
-            end
-        end
-        if another_screen then
-            local current_space=hs.spaces.activeSpaceOnScreen(screen) 
-            logger.d("space is "..tostring(spaceid))
-            for i, w in pairs(windows) do
-                if not hs.fnutils.contains(spw, w:id()) then
-                    logger.d("moved out "..w:application():name())
-                    w:moveToScreen(another_screen, true, false, 0)
-                else
-                    w:focus()
-                end
-            end
-            logger.d(hs.inspect({current_space=current_space, spaceid=spaceid, spaces=spaces}))
-            if spaceid ~= current_space then
-                logger.d("switched to space "..tostring(spaceid))
-                hs.spaces.gotoSpace(spaceid)
-            end
-            logger.d("start timer")
-            hs.timer.doAfter(0.2, function()
-                logger.d("started timedout function")
-                for _, w in pairs(windows) do
-                    hs.timer.doAfter(0.2, function()
-                        if not hs.fnutils.contains(spw, w:id()) then
-                            w:moveToScreen(screen, true, false, 0)
-                            logger.d(w:application():name().." moved to space on your screen")
-                        else
-                            w:focus()
-                        end
-                        -- w:move(screen:frame(), screen, nil, 0)
-                    end)
-                end
-                reload_layout(layout)
-                hs.timer.doAfter(0.5, function()
-                    reload_layout(layout)
-                    windows[1]:focus()
-                    reload_layout(layout)
-                end)
-                logger.d("moved to space on your screen")
-            end)
-        else
-            hs.alert.show("needs a dummy screen to move windows to other spaces")
-        end
     end
 end
 --- WindowHints:init()
@@ -594,29 +630,7 @@ function obj:init(args)
         charcodes[hs.keycodes.map[c]] = c
         hintboxes[c] = newhint(c)
     end
-    self.screentimer = hs.timer.new(1, function()
-        self.screentimer:stop()
-        -- logger.d("screen timer fired")
-        local screens = hs.screen.allScreens()
-        local n = 0
-        local dummy = 0
-        for _,s in pairs(screens) do
-            -- logger.d(s:name():gmatch(".*"))
-            if not string.find(s:name(), "Dummy") then
-                n = n + 1
-            else
-                dummy = dummy + 1
-            end
-        end
-        if n == 1 and dummy == 0 then
-            hs.osascript.applescriptFromFile("enable_dummy_screens.osa") 
-        elseif n > 1 and dummy > 0 then
-            hs.osascript.applescriptFromFile("disable_dummy_screens.osa") 
-        end
-    end)
     self.screenwatcher = hs.screen.watcher.new(function()
-        self.screentimer:stop()
-        self.screentimer:start()
     end)
     self.spaceswatcher = hs.spaces.watcher.new(function(space)
         self.updatespaces(space)
@@ -640,12 +654,15 @@ function obj:init(args)
                 self.addWindowsToSpace(nil, self.selected)
             end
             self.selecting = false
+            self.selected = {}
+            self:highlight_selected()
             return false
         end
         -- logger.d("hintseventtap keycode="..tostring(keycode).." key="..tostring(char).." originalkey="..tostring(hs.keycodes.map[keycode]).." keyDown="..tostring(keydown))
         if not hs.fnutils.some(self.event_start_flags, function() return true end) then
             self.event_start_flags = flags
             self.selected = {}
+            self:highlight_selected()
             -- logger.d("hintseventtap started")
             if char == self.key then
                 -- logger.d("key "..self.key)
@@ -661,12 +678,20 @@ function obj:init(args)
             if window then
                 if self.selecting then
                     -- logger.d("selected "..window:title())
-                    table.insert(self.selected, window)
+                    if self.selected[char]  then
+                        self.selected[char] = nil
+                    else
+                        self.selected[char] = window
+                    end
+                    self:highlight_selected()
                 else
                     window:focus()
                     return exit()
                 end
             else
+                if screen_hints[char] then
+                    hs.mouse.absolutePosition(screen_hints[char]:frame().center)
+                end
                 if not self.selecting and launcher[char] then
                     local bundleID = launcher[char]
                     hs.application.launchOrFocusByBundleID(bundleID)
@@ -730,7 +755,7 @@ function obj:start()
                     local spw = hs.spaces.windowsForSpace(sp) or {}
                     sh[sp]=spw
                 end
-                logger.d(hs.inspect(sh))
+                -- logger.d(hs.inspect(sh))
                 -- logger.d(hs.inspect({windowspaces=hs.spaces.windowSpaces(w:id())}))
             end
             if spaceid then
