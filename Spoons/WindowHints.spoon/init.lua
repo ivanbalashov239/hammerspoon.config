@@ -44,7 +44,7 @@ local function set_launcher()
                     temphistory[hint] = byid
                     launcher[hint] = id
                     launcher[id] = hint
-                    logger.d("launcher "..hint.." "..id)
+                    -- logger.d("launcher "..hint.." "..id)
                 end
             end
         end
@@ -185,9 +185,9 @@ local function strim(s)
     return s:match'^()%s*$' and '' or s:match'^%s*(.*%S)'
  end
 
-local function set_line(canvas, args)
+local function get_line(args)
     local args = args or {}
-    local canvas = canvas
+    local elements = {}
     local bundleID = args.bundleID
     local hint = args.hint
     local appName = args.appName
@@ -216,7 +216,7 @@ local function set_line(canvas, args)
             x = border,
             w = sframe.w-border*2,
         }
-    canvas:insertElement({
+    table.insert(elements, {
         type = "rectangle",
         id = "background",
         fillColor = {  red = 0, green = 0, blue = 0},
@@ -230,7 +230,7 @@ local function set_line(canvas, args)
             x = backframe.x+border,
             w = backframe.h-border*2,
         }
-    canvas:insertElement({ 
+    table.insert(elements, {
         type="image",
         absoluteSize=false,
         absolutePosition=false,
@@ -243,7 +243,7 @@ local function set_line(canvas, args)
             x = imageframe.x+imageframe.w/2,
             w = imageframe.w/2,
     }
-    canvas:insertElement({
+    table.insert(elements, {
         type = "rectangle",
         id = "hintbox"..string.lower(hint),
         fillColor = hintboxcolor,
@@ -256,7 +256,7 @@ local function set_line(canvas, args)
         --     y = hintframe.y+hintframe.h/2
         -- },
     })
-    canvas:insertElement({ 
+    table.insert(elements, {
         type="text",
         text=hint,
         textColor= {red=0, green=0, blue=0},
@@ -279,7 +279,7 @@ local function set_line(canvas, args)
         x = imageframe.x+imageframe.w+border*2,
         w = backframe.w-imageframe.w-border*4,
     }
-    canvas:insertElement({ 
+    table.insert(elements, {
         type="text",
         id = "appname",
         text=text,
@@ -297,7 +297,7 @@ local function set_line(canvas, args)
             x = appnameframe.x,
             w = appnameframe.w,
         }
-        canvas:insertElement({ 
+        table.insert(elements, {
             type="text",
             text=title,
             textColor= {red=1, green=1, blue=1},
@@ -309,7 +309,7 @@ local function set_line(canvas, args)
         })
     end
 
-    return canvas
+    return elements
 end
 local hframe = hs.geometry.new({w=500, h=1000})
 
@@ -333,7 +333,10 @@ function obj:show_menu(allwindows)
             self.menu_canvases[screen]:hide()
         end
         sframe.w = sframe.w/3
-        local menu_canvas = hs.canvas.new(sframe)
+        -- TODO use canvas:replaceElements(element1, element2) instead
+        local menu_canvas = self.menu_canvases[screen] or hs.canvas.new(sframe)
+        local elements = {}
+        menu_canvas:frame(sframe)
         local n = 0
         for _,w in pairs(windows) do
             n = n + 1
@@ -357,7 +360,7 @@ function obj:show_menu(allwindows)
             hint = self:get_hint(w)
             if hint then
                 hint = string.upper(tostring(hint))
-                menu_canvas = set_line(menu_canvas, {
+                for _, e in pairs(get_line({
                     hint=hint,
                     appName=w:application():name(),
                     title=w:title(),
@@ -366,11 +369,14 @@ function obj:show_menu(allwindows)
                     sframe=sframe,
                     bundleID=w:application():bundleID(),
                     line_height = line_height
-                })
+                })) do
+                    table.insert(elements, e)
+                end
                 i = i + 1
             end
         end
         -- logger.d(text)
+        menu_canvas:replaceElements(elements)
         menu_canvas:show()
         menu_canvas:bringToFront(true)
         self.menu_canvases[screen] = menu_canvas
@@ -410,21 +416,26 @@ function obj:show_hints()
         -- local normal = hs.window.filter.new(hs.window.filter.default):getWindows()
         local allwindows = hs.window.orderedWindows()
         hs.fnutils.each(allwindows, function(window)
-            if windows[window:id()] then
-                local wframe = window:frame()
-                for _, w in pairs(visiblewindows) do
-                    if wframe:intersect(w:frame()).area >= wframe.area*0.95 then
-                        -- logger.d(w:id().." "..w:application():name().." "..w:title().." already")
-                        -- logger.d(window:id().." "..window:application():name().." "..window:title().." behind and smaller")
-                        return
+            if window and window:application() then
+                if windows[window:id()] then
+                    local wframe = window:frame()
+                    for _, w in pairs(visiblewindows) do
+                        if wframe:intersect(w:frame()).area >= wframe.area*0.95 then
+                            -- logger.d(w:id().." "..w:application():name().." "..w:title().." already")
+                            -- logger.d(window:id().." "..window:application():name().." "..window:title().." behind and smaller")
+                            return
+                        end
                     end
+                    visiblewindows[window:id()] = window
                 end
-                visiblewindows[window:id()] = window
             end
         end)
         for i,hint in pairs(windows) do
-            if not visiblewindows[i] then
-                otherwindows[i] = self:get_window(hint)
+            local window = self:get_window(hint)
+            if window and window:application() then
+                if not visiblewindows[i] then
+                    otherwindows[i] = window
+                end
             end
         end
         self:show_menu(otherwindows)
@@ -564,12 +575,12 @@ function obj.addWindowsToSpace(spaceid, selected)
                 layout = "Tall"
                 -- logger.d(hs.inspect({spaces=spaces}))
                 for i, space in ipairs(screenspaces) do
-                    logger.d(hs.inspect({i, space}))
+                    -- logger.d(hs.inspect({i, space}))
                     -- local spw = hs.spaces.windowsForSpace(space)
                     local spw = obj.windowsForSpace(space)
-                    logger.d(hs.inspect({spaceid=space, spw=spw}))
+                    -- logger.d(hs.inspect({spaceid=space, spw=spw}))
                     -- logger.d(tostring(space).." windows="..tostring(#spw))
-                    logger.d(hs.inspect({i= i, space=space, spaceid=spaceid, nspw=#spw, spw=spw, spaces=spaces, windows=windows}))
+                    -- logger.d(hs.inspect({i= i, space=space, spaceid=spaceid, nspw=#spw, spw=spw, spaces=spaces, windows=windows}))
                     if not spaceid then
                         if i > 1 and #spw == #windows and hs.fnutils.every(windows, function(el) return hs.fnutils.contains(spw, el:id()) end) then
                             logger.d("using existing space")
@@ -579,7 +590,7 @@ function obj.addWindowsToSpace(spaceid, selected)
                             end
                             return
                         elseif i > 1 and #spw == 0 then
-                            logger.d(hs.inspect({name="reusing an empty one ", i=i, space=space, spaceid=spaceid, nspw=#spw, spw=spw, spaces=spaces, windows=windows}))
+                            -- logger.d(hs.inspect({name="reusing an empty one ", i=i, space=space, spaceid=spaceid, nspw=#spw, spw=spw, spaces=spaces, windows=windows}))
                             spaceid = space
                             -- break
                         elseif i == #screenspaces then

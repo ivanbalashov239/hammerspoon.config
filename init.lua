@@ -65,6 +65,9 @@ else
     hs.alert.show("cli did't install")
 end
 
+hs.hotkey.bind(hyper, "+", function()
+    hs.reload()
+end)
 
 --  // Window switcher
 --local switcher  = require('switcher')
@@ -89,38 +92,38 @@ hs.loadSpoon("HoldToQuit")
 spoon.HoldToQuit:init()
 spoon.HoldToQuit:start()
 
-hs.loadSpoon("PushToTalk")
--- spoon.SpoonInstall:andUse("PushToTalk", {start = true, config = { app_switcher = { ['zoom.us'] = 'push-to-talk' }}})
-spoon.PushToTalk:init()
-spoon.PushToTalk.app_switcher = { 
-    ['zoom.us'] = 'push-to-talk',
-    ['com.microsoft.teams'] = 'push-to-talk'
-}
-spoon.PushToTalk.detect_on_start = true
-spoon.PushToTalk:start()
-function ptt_ipc(scheme, msgID, msg)
-    -- if msgID == 900 then
-    --     return "version:2.0a"
-    -- end
-    msg = msg:sub(2,-1)
+-- hs.loadSpoon("PushToTalk")
+-- -- spoon.SpoonInstall:andUse("PushToTalk", {start = true, config = { app_switcher = { ['zoom.us'] = 'push-to-talk' }}})
+-- spoon.PushToTalk:init()
+-- spoon.PushToTalk.app_switcher = { 
+--     ['zoom.us'] = 'push-to-talk',
+--     ['com.microsoft.teams'] = 'push-to-talk'
+-- }
+-- spoon.PushToTalk.detect_on_start = true
+-- spoon.PushToTalk:start()
+-- function ptt_ipc(scheme, msgID, msg)
+--     -- if msgID == 900 then
+--     --     return "version:2.0a"
+--     -- end
+--     msg = msg:sub(2,-1)
 
-    if msgID == 0 then
-        states = {"push-to-talk", "release-to-talk", "mute", "unmute", "toggle"}
-        if hs.fnutils.contains(states, msg) then
-            if msg == "toggle" then
-            else
-                states = {msg}
-            end
-            spoon.PushToTalk:toggleStates(states)
-            return "ok"
-        end
-        if msg == "get_state" then
-            return spoon.PushToTalk.state
-        end
-    end
-end
-pttport = hs.ipc.localPort("PushToTalk", ptt_ipc)
-spoon.PushToTalk.menubar:autosaveName("pushtotalk")
+--     if msgID == 0 then
+--         states = {"push-to-talk", "release-to-talk", "mute", "unmute", "toggle"}
+--         if hs.fnutils.contains(states, msg) then
+--             if msg == "toggle" then
+--             else
+--                 states = {msg}
+--             end
+--             spoon.PushToTalk:toggleStates(states)
+--             return "ok"
+--         end
+--         if msg == "get_state" then
+--             return spoon.PushToTalk.state
+--         end
+--     end
+-- end
+-- pttport = hs.ipc.localPort("PushToTalk", ptt_ipc)
+-- spoon.PushToTalk.menubar:autosaveName("pushtotalk")
 
 -- hs.loadSpoon("ForceTouchMapper")
 -- spoon.ForceTouchMapper:init()
@@ -145,20 +148,23 @@ hs.hotkey.bind(hyper, '\\', function()
   end)
 
 
+autofocus = hs.timer.delayed.new(0.2, function()
+            local w = hs.window.focusedWindow()
+            -- logger.d(hs.inspect({event="autofocus", w=w}))
+            if w then
+                local mouse_geometry = hs.mouse.absolutePosition()
+                local screen = hs.mouse.getCurrentScreen()
+                mouse_geometry = hs.geometry.point({x=mouse_geometry.x, y=mouse_geometry.y})
+                window_geometry = w:frame()
+                if not mouse_geometry:inside(screen:fullFrame()) or ( mouse_geometry:inside(screen:frame()) and not mouse_geometry:inside(window_geometry)) then
+                    hs.mouse.absolutePosition(window_geometry.center)
+                end
+                autofocus:stop()
+            end
+        end)
 theWindows = hs.window.filter.new()
 local function callback_window_focused(w, appName, event)
-    if w then
-        -- if window_geometry:inside()
-        hs.timer.doAfter(0.2, function()
-            local mouse_geometry = hs.mouse.absolutePosition()
-            mouse_geometry = hs.geometry.point({x=mouse_geometry.x, y=mouse_geometry.y})
-            window_geometry = w:frame()
-            if not mouse_geometry:inside(window_geometry) then
-                hs.mouse.absolutePosition(window_geometry.center)
-            end
-            -- hs.alert.show(spoon.WindowHints:get_hint(w))
-        end)
-    end
+    autofocus:start()
 end
 theWindows:subscribe(hs.window.filter.windowFocused, callback_window_focused)
 
@@ -358,6 +364,10 @@ menubartoggle:setMenu( function()
     end
     return {}
 end)
+
+hs.loadSpoon("Wallpaper")
+spoon.Wallpaper:init()
+spoon.Wallpaper:start()
 
 -- hs.loadSpoon("MissionControl")
 -- spoon.MissionControl:init({mods=hyper})
