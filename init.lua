@@ -380,4 +380,22 @@ spoon.Wallpaper:start()
 -- local filter = hs.window.filter.new()
 -- hs.window.highlight.start()
 
+prevclip=nil
+function open_iina(contents)
+    urlpattern="http://.*/stream/.*&play"
+    if contents then
+        if not (contents == prevclip) and string.match(contents, urlpattern) then
+            hs.execute("open -a IINA -u \"" .. contents..'"')
+            logger.d("iina" .. contents)
+        end
+        prevclip = contents
+    else
+        -- error("no clipboard")
+    end
+end
+torrserve = hs.pasteboard.watcher.new(open_iina)
+torrserve:start()
+
+
+
 hs.alert.show("Config loaded")
